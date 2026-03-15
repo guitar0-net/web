@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-FROM node:24-alpine AS base
+FROM node:25-alpine AS base
 
 
 FROM base AS deps
