@@ -5,6 +5,7 @@
 FROM node:25-alpine AS base
 # TODO: remove once node:25-alpine ships zlib >= 1.3.2-r0 (CVE-2026-22184)
 RUN apk upgrade --no-cache zlib
+RUN npm install -g npm@11.11.1
 
 
 FROM base AS deps
