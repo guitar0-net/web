@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 FROM node:25-alpine AS base
+# TODO: remove once node:25-alpine ships zlib >= 1.3.2-r0 (CVE-2026-22184)
+RUN apk upgrade --no-cache zlib
 
 
 FROM base AS deps
