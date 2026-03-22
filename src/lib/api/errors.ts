@@ -36,3 +36,10 @@ export class ForbiddenError extends ApiError {
     this.name = "ForbiddenError";
   }
 }
+
+export class ValidationError extends ApiError {
+  constructor(data?: unknown) {
+    super(422, "Unprocessable Entity", data);
+    this.name = "ValidationError";
+  }
+}
