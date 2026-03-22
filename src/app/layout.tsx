@@ -5,11 +5,22 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
+
+const debby = localFont({
+  src: [{ path: "../../public/fonts/Debby.ttf" }],
+  variable: "--font-debby",
+});
+
+const graffiti = localFont({
+  src: [{ path: "../../public/fonts/SpriteGraffiti.ttf" }],
+  variable: "--font-graffiti",
+});
 
 export const metadata: Metadata = {
   title: "Гитара с нуля",
@@ -26,7 +37,7 @@ export default function RootLayout({
     <html
       suppressHydrationWarning
       lang="ru"
-      className={cn("font-sans", geist.variable)}
+      className={cn("font-sans", geist.variable, debby.variable, graffiti.variable)}
     >
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
