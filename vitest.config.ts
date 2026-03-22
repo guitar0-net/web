@@ -12,6 +12,9 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
+    env: {
+      NEXT_PUBLIC_API_URL: "http://localhost",
+    },
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["node_modules", ".next"],

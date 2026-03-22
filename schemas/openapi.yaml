@@ -1,0 +1,558 @@
+openapi: 3.0.3
+info:
+  title: Guitar0 API
+  version: main
+  description: Django REST API for guitar0.net platform
+paths:
+  /api/v1/chords/:
+    get:
+      operationId: chords_list
+      description: List all chords.
+      tags:
+      - chords
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChordsList'
+          description: ''
+  /api/v1/chords/{id}/:
+    get:
+      operationId: chords_retrieve
+      description: Retrieve a single chord by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - chords
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChordDetail'
+          description: ''
+  /api/v1/lessons/:
+    get:
+      operationId: lessons_list
+      description: List all published lessons.
+      tags:
+      - lessons
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LessonsList'
+          description: ''
+  /api/v1/lessons/{uuid}/:
+    get:
+      operationId: lessons_retrieve
+      description: Retrieve a single published lesson by UUID.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - lessons
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonDetail'
+          description: ''
+  /api/v1/courses/:
+    get:
+      operationId: courses_list
+      description: List all published courses.
+      tags:
+      - courses
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CoursesList'
+          description: ''
+  /api/v1/courses/{uuid}/:
+    get:
+      operationId: courses_retrieve
+      description: Retrieve a single published course by UUID.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - courses
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseDetail'
+          description: ''
+  /api/v1/announcements/:
+    get:
+      operationId: announcements_list
+      description: List all published announcements.
+      tags:
+      - announcements
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnnouncementsList'
+          description: ''
+  /api/v1/announcements/{uuid}/:
+    get:
+      operationId: announcements_retrieve
+      description: Retrieve a single published announcement by UUID.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - announcements
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementDetail'
+          description: ''
+components:
+  schemas:
+    AnnouncementDetail:
+      type: object
+      description: Serializer for announcement detail.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 200
+        slug:
+          type: string
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          title: Содержание
+        product_version:
+          type: string
+          title: Версия продукта
+          description: 'Например: 1.2.0'
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+      required:
+      - content
+      - created_at
+      - slug
+      - title
+      - updated_at
+      - uuid
+    AnnouncementsList:
+      type: object
+      description: Serializer for announcements list.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 200
+        slug:
+          type: string
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        product_version:
+          type: string
+          title: Версия продукта
+          description: 'Например: 1.2.0'
+          maxLength: 50
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата-время публикации
+      required:
+      - slug
+      - title
+      - uuid
+    ChordDetail:
+      type: object
+      description: Serializer for chord detail.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 50
+        musical_title:
+          type: string
+          title: Музыкальное название
+          maxLength: 50
+        order_in_note:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: Порядок отображения
+        start_fret:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: С какого лада начинается
+        has_barre:
+          type: boolean
+          title: Есть барре?
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChordPosition'
+          readOnly: true
+      required:
+      - id
+      - musical_title
+      - positions
+      - title
+    ChordPosition:
+      type: object
+      description: Serializer for one string position.
+      properties:
+        string_number:
+          type: integer
+          maximum: 6
+          minimum: 1
+          title: Номер струны
+        fret:
+          type: integer
+          maximum: 12
+          minimum: -1
+          title: На каком ладу зажата
+          description: 0 - открыта, -1 - заглушена
+        finger:
+          type: integer
+          maximum: 4
+          minimum: 0
+          title: Каким пальцем зажата
+      required:
+      - finger
+      - fret
+      - string_number
+    ChordsList:
+      type: object
+      description: Serializer for chords list.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 50
+        musical_title:
+          type: string
+          title: Музыкальное название
+          maxLength: 50
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChordPosition'
+          readOnly: true
+      required:
+      - id
+      - musical_title
+      - positions
+      - title
+    CourseDetail:
+      type: object
+      description: Serializer for course detail.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseLessonDetail'
+      required:
+      - created_at
+      - lessons
+      - title
+      - updated_at
+      - uuid
+    CourseLessonDetail:
+      type: object
+      description: Serializer for lesson within course detail.
+      properties:
+        order:
+          type: integer
+        lesson:
+          $ref: '#/components/schemas/LessonsList'
+      required:
+      - lesson
+      - order
+    CoursesList:
+      type: object
+      description: Serializer for courses list.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+        lessons_count:
+          type: integer
+          readOnly: true
+      required:
+      - lessons_count
+      - title
+      - uuid
+    ImageScheme:
+      type: object
+      description: Output  serializer for an image scheme.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        inscription:
+          type: string
+          title: Надпись
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          title: Изображение
+        height:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Высота
+        width:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Ширина
+      required:
+      - id
+      - image
+    LessonDetail:
+      type: object
+      description: Serializer for lesson detail.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+          description: Краткое описание содержания урока
+        video_url:
+          type: string
+          format: uri
+          title: Видео
+          description: Ссылка на видео урока
+          maxLength: 200
+        duration:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Длительность (сек)
+          description: Общая длительность урока в секундах
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongDetail'
+          readOnly: true
+        addition_lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/LessonsList'
+          readOnly: true
+      required:
+      - addition_lessons
+      - songs
+      - title
+      - uuid
+      - video_url
+    LessonsList:
+      type: object
+      description: Serializer for lessons list.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+          description: Краткое описание содержания урока
+        video_url:
+          type: string
+          format: uri
+          title: Видео
+          description: Ссылка на видео урока
+          maxLength: 200
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongList'
+          readOnly: true
+      required:
+      - songs
+      - title
+      - uuid
+      - video_url
+    SongDetail:
+      type: object
+      description: Song detail serializer.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        text:
+          type: string
+          title: Текст песни
+          description: С аккордами и переносами строк
+        metronome:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          title: Метроном
+        schemes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageScheme'
+          readOnly: true
+        chords:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChordDetail'
+          readOnly: true
+      required:
+      - chords
+      - id
+      - schemes
+      - text
+      - title
+    SongList:
+      type: object
+      description: Serializer for list of songs.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+      required:
+      - id
+      - title
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
