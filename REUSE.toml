@@ -14,7 +14,8 @@ path = [
   "src/app/favicon.ico",
   "src/components/ui/**",
   "src/lib/utils.ts",
-
+  "schemas/openapi.yaml",
+  "src/types/api.d.ts",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Andrey Kotlyar <guitar0.app@gmail.com>"
