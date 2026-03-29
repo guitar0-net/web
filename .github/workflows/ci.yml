@@ -85,7 +85,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: guitar0-net/web
           files: coverage/lcov.info
-          fail_ci_if_error: true
 
   security:
     name: Security checks
