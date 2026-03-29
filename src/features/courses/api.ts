@@ -5,11 +5,12 @@
 import { apiClient, unwrap } from "@/lib/api";
 import { components } from "@/types/api";
 
-type CoursesList = components["schemas"]["CoursesList"];
+export type CoursesListItem = components["schemas"]["CoursesList"];
+export type CoursesList = CoursesListItem[];
 
 export function createCoursesApi(client: typeof apiClient) {
   return {
-    fetchCourses: async (): Promise<CoursesList[]> =>
+    fetchCourses: async (): Promise<CoursesList> =>
       unwrap(await client.GET("/api/v1/courses/")),
   };
 }

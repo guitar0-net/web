@@ -7,7 +7,7 @@ import { makeApiStub } from "@/test/helpers/api-stub";
 import { createCoursesApi } from "./api";
 
 describe("coursesApi", () => {
-  it("fetchCourses calls /api/v1/courses", async () => {
+  it("fetchCourses calls /api/v1/courses/", async () => {
     const { client, getCapturedPath } = makeApiStub([]);
     await createCoursesApi(client).fetchCourses();
     expect(getCapturedPath()).toBe("/api/v1/courses/");
