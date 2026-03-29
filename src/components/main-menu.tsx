@@ -15,21 +15,31 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { CoursesList } from "@/features/courses";
 import { cn } from "@/lib/utils";
 
-export function MainMenu() {
+type Props = {
+  courses: CoursesList;
+};
+
+export function MainMenu({ courses }: Props) {
   return (
     <NavigationMenu className="font-graffiti text-primary">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="text-2xl">Курсы</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <NavigationMenuLink asChild className="text-primary text-xl">
-              <Link href={"/lessons"}>Уроки</Link>
-            </NavigationMenuLink>
-            <NavigationMenuLink asChild className="text-primary text-xl">
-              <Link href={"/tracks"}>Разборы</Link>
-            </NavigationMenuLink>
+            <ul className="min-w-64">
+              {courses.map((course) => (
+                <NavigationMenuLink
+                  asChild
+                  key={course.uuid}
+                  className="text-primary text-xl"
+                >
+                  <Link href={`/course/${course.uuid}`}>{course.title}</Link>
+                </NavigationMenuLink>
+              ))}
+            </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuLink

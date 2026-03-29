@@ -7,7 +7,10 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
+import { ReactNode } from "react";
 
+import { Header } from "@/components/header";
+import { coursesApi } from "@/features/courses/api";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -28,20 +31,22 @@ export const metadata: Metadata = {
     "Учись играть на гитаре с нуля — уроки для начинающих, аккорды, табулатуры и упражнения.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+type Props = {
+  children: ReactNode;
+};
+
+export default async function RootLayout({ children }: Readonly<Props>) {
+  const courses = await coursesApi.fetchCourses();
   return (
     <html
       suppressHydrationWarning
       lang="ru"
       className={cn("font-sans", geist.variable, debby.variable, graffiti.variable)}
     >
-      <body className="antialiased">
+      <body className="flex min-h-screen flex-col antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <Header courses={courses} />
+          <div className="flex flex-1 flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>
