@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export { apiClient } from "./client";
+export { unwrap } from "./unwrap";
 export {
   ApiError,
   ForbiddenError,
