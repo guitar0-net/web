@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* v8 ignore file */
-
 import Link from "next/link";
 
 import {
@@ -15,21 +13,37 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import type { CoursesList } from "@/features/courses";
 import { cn } from "@/lib/utils";
 
-export function MainMenu() {
+type Props = {
+  courses: CoursesList | null;
+};
+
+export function MainMenu({ courses }: Props) {
   return (
     <NavigationMenu className="font-graffiti text-primary">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="text-2xl">Курсы</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <NavigationMenuLink asChild className="text-primary text-xl">
-              <Link href={"/lessons"}>Уроки</Link>
-            </NavigationMenuLink>
-            <NavigationMenuLink asChild className="text-primary text-xl">
-              <Link href={"/tracks"}>Разборы</Link>
-            </NavigationMenuLink>
+            {courses === null ? (
+              <p className="text-muted-foreground min-w-64 px-4 py-3 text-sm">
+                Сервер недоступен
+              </p>
+            ) : (
+              <ul className="min-w-64">
+                {courses.map((course) => (
+                  <NavigationMenuLink
+                    asChild
+                    key={course.uuid}
+                    className="text-primary text-xl"
+                  >
+                    <Link href={`/course/${course.uuid}`}>{course.title}</Link>
+                  </NavigationMenuLink>
+                ))}
+              </ul>
+            )}
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuLink

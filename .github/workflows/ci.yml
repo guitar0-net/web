@@ -144,6 +144,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: [lint, typecheck, tests, security, api-contract]
+    env:
+      NEXT_PUBLIC_API_URL: "http://localhost:8000"
 
     steps:
       - name: Checkout repository
@@ -182,5 +184,6 @@ jobs:
           pull: true
           push: false
           tags: kotlyar562/guitar0net:test
+          build-args: NEXT_PUBLIC_API_URL=http://localhost:8000
           cache-from: type=gha
           cache-to: type=gha,mode=max

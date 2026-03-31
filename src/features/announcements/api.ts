@@ -5,12 +5,13 @@
 import { apiClient, unwrap } from "@/lib/api";
 import type { components } from "@/types/api";
 
-type AnnouncementsList = components["schemas"]["AnnouncementsList"];
-type AnnouncementDetail = components["schemas"]["AnnouncementDetail"];
+export type AnnouncementsListItem = components["schemas"]["AnnouncementsList"];
+export type AnnouncementDetail = components["schemas"]["AnnouncementDetail"];
+export type AnnouncementsList = AnnouncementsListItem[];
 
 export function createAnnouncementApi(client: typeof apiClient) {
   return {
-    fetchAnnouncements: async (): Promise<AnnouncementsList[]> =>
+    fetchAnnouncements: async (): Promise<AnnouncementsList> =>
       unwrap(await client.GET("/api/v1/announcements/")),
     fetchAnnouncement: async (uuid: string): Promise<AnnouncementDetail> =>
       unwrap(
