@@ -7,10 +7,9 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { Header } from "@/components/header";
-import { coursesApi } from "@/features/courses/api";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -36,7 +35,6 @@ type Props = {
 };
 
 export default async function RootLayout({ children }: Readonly<Props>) {
-  const courses = await coursesApi.fetchCourses();
   return (
     <html
       suppressHydrationWarning
@@ -45,7 +43,7 @@ export default async function RootLayout({ children }: Readonly<Props>) {
     >
       <body className="flex min-h-screen flex-col antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header courses={courses} />
+          <Header />
           <div className="flex flex-1 flex-col">{children}</div>
         </ThemeProvider>
       </body>

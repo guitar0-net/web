@@ -6,24 +6,19 @@
 
 import Link from "next/link";
 
-import type { CoursesList } from "@/features/courses";
-
 import { Logo } from "./logo";
-import { MainMenu } from "./main-menu";
+import { MainMenuServer } from "./main-menu-server";
 
-type Props = {
-  courses: CoursesList;
-};
-
-export function Header({ courses }: Props) {
+export function Header() {
   return (
     <header className="sticky top-0 w-full border-b">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto grid grid-cols-3 items-center">
         <Link href={"/"}>
           <Logo />
         </Link>
-        <MainMenu courses={courses} />
-        <div />
+        <div className="flex justify-center">
+          <MainMenuServer />
+        </div>
       </div>
     </header>
   );

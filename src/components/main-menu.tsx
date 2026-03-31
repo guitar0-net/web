@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* v8 ignore file */
-
 import Link from "next/link";
 
 import {
@@ -15,7 +13,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { CoursesList } from "@/features/courses";
+import type { CoursesList } from "@/features/courses";
 import { cn } from "@/lib/utils";
 
 type Props = {
