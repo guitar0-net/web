@@ -2,13 +2,16 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* v8 ignore file */
-
-import { coursesApi } from "@/features/courses";
+import { type CoursesList, coursesApi } from "@/features/courses";
 
 import { MainMenu } from "./main-menu";
 
 export async function MainMenuServer() {
-  const courses = await coursesApi.fetchCourses();
+  let courses: CoursesList | null = null;
+  try {
+    courses = await coursesApi.fetchCourses();
+  } catch (error) {
+    console.error("[MainMenuServer] Failed to fetch courses:", error);
+  }
   return <MainMenu courses={courses} />;
 }

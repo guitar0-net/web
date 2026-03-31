@@ -41,4 +41,10 @@ describe("MainMenu", () => {
       "/chords",
     );
   });
+
+  it("renders an unavailability message in the courses dropdown when courses is null", async () => {
+    render(<MainMenu courses={null} />);
+    await userEvent.click(screen.getByRole("button", { name: "Курсы" }));
+    expect(screen.getByText("Сервер недоступен")).toBeInTheDocument();
+  });
 });
