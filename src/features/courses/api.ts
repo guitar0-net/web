@@ -11,7 +11,7 @@ export type CoursesList = CoursesListItem[];
 export function createCoursesApi(client: typeof apiClient) {
   return {
     fetchCourses: async (): Promise<CoursesList> =>
-      unwrap(await client.GET("/api/v1/courses/")),
+      unwrap(await client.GET("/api/v1/courses/", { cache: "no-store" })),
   };
 }
 
