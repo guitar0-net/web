@@ -2,23 +2,16 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-FROM node:25-alpine AS base
-# TODO: remove once node:25-alpine ships zlib >= 1.3.2-r0 (CVE-2026-22184)
-RUN apk upgrade --no-cache zlib
-
-FROM base AS build-base
-RUN npm install -g npm@11.12.1
-
-
-FROM build-base AS deps
-RUN apk add --no-cache libc6-compat
+FROM node:25-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --no-audit --no-fund
 
 
-FROM build-base AS builder
+FROM node:25-slim AS builder
 WORKDIR /app
+ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
@@ -27,23 +20,23 @@ COPY . .
 RUN npm run build
 
 
-FROM base AS runner
+FROM node:25-slim AS runner
 WORKDIR /app
 
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+RUN mkdir .next && chown node:node .next
+
+COPY --from=builder --chown=node:node /app/public ./public
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+
+USER node
+
+EXPOSE 3000
 CMD ["node", "server.js"]
