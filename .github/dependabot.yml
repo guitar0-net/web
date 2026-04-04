@@ -29,10 +29,6 @@ updates:
       prefix: "chore(deps)"
 
     groups:
-      security-fixes:
-        patterns: ["*"]
-        update-types: ["security"]
-
       dev-dependencies:
         dependency-type: "development"
 
