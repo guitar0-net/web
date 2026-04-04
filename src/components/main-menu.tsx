@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -34,24 +36,24 @@ export function MainMenu({ courses }: Props) {
             ) : (
               <ul className="min-w-64">
                 {courses.map((course) => (
-                  <NavigationMenuLink
-                    asChild
-                    key={course.uuid}
-                    className="text-primary text-xl"
-                  >
-                    <Link href={`/course/${course.uuid}`}>{course.title}</Link>
-                  </NavigationMenuLink>
+                  <li key={course.uuid}>
+                    <NavigationMenuLink asChild className="text-primary text-xl">
+                      <Link href={`/course/${course.uuid}`}>{course.title}</Link>
+                    </NavigationMenuLink>
+                  </li>
                 ))}
               </ul>
             )}
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuLink
-          className={cn(navigationMenuTriggerStyle(), "text-2xl")}
-          asChild
-        >
-          <Link href="/chords">Аккорды</Link>
-        </NavigationMenuLink>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            className={cn(navigationMenuTriggerStyle(), "text-2xl")}
+            asChild
+          >
+            <Link href="/chords">Аккорды</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
