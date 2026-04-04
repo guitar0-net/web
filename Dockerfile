@@ -5,17 +5,19 @@
 FROM node:25-alpine AS base
 # TODO: remove once node:25-alpine ships zlib >= 1.3.2-r0 (CVE-2026-22184)
 RUN apk upgrade --no-cache zlib
-RUN npm install -g npm@11.11.1
+
+FROM base AS build-base
+RUN npm install -g npm@11.12.1
 
 
-FROM base AS deps
+FROM build-base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
 
-FROM base AS builder
+FROM build-base AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_API_URL
