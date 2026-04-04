@@ -37,4 +37,7 @@ COPY --from=builder --chown=65532:65532 /app/.next/static ./.next/static
 USER 65532
 
 EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD ["/nodejs/bin/node", "-e", \
+         "const h=require('http');const r=h.get('http://localhost:3000/api/health',res=>process.exit(res.statusCode===200?0:1));r.on('error',()=>process.exit(1));"]
 CMD ["server.js"]
