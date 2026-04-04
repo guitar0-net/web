@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-FROM node:25-slim AS deps
+FROM node:24-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --no-audit --no-fund
 
 
-FROM node:25-slim AS builder
+FROM node:24-slim AS builder
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 
-FROM node:25-slim AS runner
+FROM gcr.io/distroless/nodejs24-debian12 AS runner
 WORKDIR /app
 
 ARG NEXT_PUBLIC_API_URL
@@ -30,13 +30,11 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-RUN mkdir .next && chown node:node .next
+COPY --from=builder --chown=65532:65532 /app/public ./public
+COPY --from=builder --chown=65532:65532 /app/.next/standalone ./
+COPY --from=builder --chown=65532:65532 /app/.next/static ./.next/static
 
-COPY --from=builder --chown=node:node /app/public ./public
-COPY --from=builder --chown=node:node /app/.next/standalone ./
-COPY --from=builder --chown=node:node /app/.next/static ./.next/static
-
-USER node
+USER 65532
 
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["server.js"]
