@@ -11,7 +11,7 @@ import { MainMenuServer } from "./main-menu-server";
 
 export function Header() {
   return (
-    <header className="sticky top-0 w-full border-b">
+    <header className="bg-background/80 sticky top-0 w-full border-b backdrop-blur-md">
       <div className="container mx-auto grid grid-cols-3 items-center">
         <Link href={"/"}>
           <Logo />
