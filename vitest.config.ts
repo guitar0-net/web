@@ -5,6 +5,7 @@
 import path from "path";
 
 import react from "@vitejs/plugin-react";
+import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -12,9 +13,7 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    env: {
-      NEXT_PUBLIC_API_URL: "http://localhost",
-    },
+    env: loadEnv("test", process.cwd(), ""),
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["node_modules", ".next"],

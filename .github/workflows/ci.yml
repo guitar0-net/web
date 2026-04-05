@@ -146,6 +146,7 @@ jobs:
     needs: [lint, typecheck, tests, security, api-contract]
     env:
       NEXT_PUBLIC_API_URL: "http://localhost:8000"
+      NEXT_PUBLIC_ADMIN_EMAIL: "guitar0.app@gmail.com"
 
     steps:
       - name: Checkout repository
@@ -184,6 +185,8 @@ jobs:
           pull: true
           push: false
           tags: kotlyar562/guitar0net:test
-          build-args: NEXT_PUBLIC_API_URL=http://localhost:8000
+          build-args: |
+            NEXT_PUBLIC_API_URL=http://localhost:8000
+            NEXT_PUBLIC_ADMIN_EMAIL=guitar0.app@gmail.com
           cache-from: type=gha
           cache-to: type=gha,mode=max

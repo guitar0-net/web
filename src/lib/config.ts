@@ -12,4 +12,7 @@ export const config = {
   get apiUrl(): string {
     return requireEnv("NEXT_PUBLIC_API_URL");
   },
+  get adminEmail(): string {
+    return requireEnv("NEXT_PUBLIC_ADMIN_EMAIL");
+  },
 };
