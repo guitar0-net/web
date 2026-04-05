@@ -9,6 +9,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: Readonly<Props>) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
           <div className="flex flex-1 flex-col">{children}</div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
