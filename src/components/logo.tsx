@@ -10,13 +10,13 @@ export function Logo() {
   return (
     <div className="flex items-center gap-2">
       <Image
-        className="size-12 md:size-16"
+        className="size-11 md:size-13"
         src={"/images/logo.png"}
         width={84}
         height={84}
         alt="Logo"
       />
-      <span className="font-debby text-primary text-3xl md:text-4xl">
+      <span className="font-debby text-primary text-2xl md:text-3xl">
         Гитара с нуля
       </span>
     </div>
