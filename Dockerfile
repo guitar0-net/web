@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-FROM node:24-slim AS deps
+FROM node:25-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --no-audit --no-fund
 
 
-FROM node:24-slim AS builder
+FROM node:25-slim AS builder
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
