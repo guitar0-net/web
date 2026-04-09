@@ -8,11 +8,7 @@ import { components } from "@/types/api";
 export type CoursesListItem = components["schemas"]["CoursesList"];
 export type CoursesList = CoursesListItem[];
 
-export function createCoursesApi(client: typeof apiClient) {
-  return {
-    fetchCourses: async (): Promise<CoursesList> =>
-      unwrap(await client.GET("/api/v1/courses/", { cache: "no-store" })),
-  };
-}
-
-export const coursesApi = createCoursesApi(apiClient);
+export const coursesApi = {
+  fetchCourses: async (): Promise<CoursesList> =>
+    unwrap(await apiClient.GET("/api/v1/courses/", { cache: "no-store" })),
+};
