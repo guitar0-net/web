@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -13,44 +15,36 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { coursesApi, type CoursesList } from "@/features/courses";
+import type { CoursesList } from "@/features/courses";
 import { cn } from "@/lib/utils";
 
-export async function MainMenu() {
-  let courses: CoursesList | null = null;
-  try {
-    courses = await coursesApi.fetchCourses();
-  } catch (error) {
-    console.error("[MainMenu] Failed to fetch courses:", error);
-  }
+type Props = {
+  courses: CoursesList | null;
+};
 
+export function MainMenu({ courses }: Props) {
   return (
     <NavigationMenu className="font-graffiti text-primary">
       <NavigationMenuList>
         <NavigationMenuItem>
-          {courses !== null && courses.length > 0 ? (
-            <>
-              <NavigationMenuTrigger className="text-2xl">Курсы</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="min-w-64">
-                  {courses.map((course) => (
-                    <li key={course.uuid}>
-                      <NavigationMenuLink asChild className="text-primary text-xl">
-                        <Link href={`/course/${course.uuid}`}>{course.title}</Link>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </>
-          ) : (
-            <NavigationMenuLink
-              className={cn(navigationMenuTriggerStyle(), "text-2xl")}
-              asChild
-            >
-              <Link href="/courses">Курсы</Link>
-            </NavigationMenuLink>
-          )}
+          <NavigationMenuTrigger className="text-2xl">Курсы</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            {courses === null ? (
+              <p className="text-muted-foreground min-w-64 px-4 py-3 text-sm">
+                Сервер недоступен
+              </p>
+            ) : (
+              <ul className="min-w-64">
+                {courses.map((course) => (
+                  <li key={course.uuid}>
+                    <NavigationMenuLink asChild className="text-primary text-xl">
+                      <Link href={`/course/${course.uuid}`}>{course.title}</Link>
+                    </NavigationMenuLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink
