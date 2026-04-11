@@ -12,3 +12,19 @@ CVE-2026-28390 exp:2026-07-01
 # Fixed in 3.0.19, waiting for distroless update
 # Not exploitable in our context (no user-supplied RSA key parsing)
 CVE-2026-31790 exp:2026-07-01
+
+# OpenSSL: DANE TLS certificate verification bypass
+# Debian rates LOW; NVD rates HIGH — not exploitable without DANE TLSA usage
+CVE-2026-31789 exp:2026-07-01
+
+# OpenSSL: Delta CRL processing issue
+# Debian rates LOW; NVD rates HIGH — not exploitable without CRL delta processing
+CVE-2026-28389 exp:2026-07-01
+
+# OpenSSL: OCTET STRING oversized value conversion
+# Debian rates LOW; NVD rates HIGH — no user-controlled input paths affected
+CVE-2026-28388 exp:2026-07-01
+
+# OpenSSL: RSA public key parsing vulnerability
+# Debian rates LOW; NVD rates HIGH — no user-controlled RSA key parsing
+CVE-2026-28387 exp:2026-07-01
