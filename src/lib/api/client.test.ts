@@ -26,16 +26,11 @@ type TestPaths = {
         500: { content: never };
       };
     };
-    delete: {
-      responses: {
-        204: { content?: never };
-      };
-    };
   };
 };
 
 describe("buildApiClient", () => {
-  it("returns parsed response body on a 200 response", async () => {
+  it("returns data directly on a 200 response", async () => {
     const body = { data: Math.random().toString(36) };
     await withServer(
       (_, res) => {
@@ -44,22 +39,8 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        const { data } = await client.GET("/");
+        const data = await client.get("/");
         expect(data).toEqual(body);
-      },
-    );
-  });
-
-  it("returns undefined data on a 204 No Content response", async () => {
-    await withServer(
-      (_, res) => {
-        res.writeHead(204);
-        res.end();
-      },
-      async (url) => {
-        const client = buildApiClient<TestPaths>(url);
-        const { data } = await client.DELETE("/");
-        expect(data).toBeUndefined();
       },
     );
   });
@@ -72,7 +53,7 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        await expect(client.GET("/")).rejects.toBeInstanceOf(UnauthorizedError);
+        await expect(client.get("/")).rejects.toBeInstanceOf(UnauthorizedError);
       },
     );
   });
@@ -85,7 +66,7 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        await expect(client.GET("/")).rejects.toBeInstanceOf(ForbiddenError);
+        await expect(client.get("/")).rejects.toBeInstanceOf(ForbiddenError);
       },
     );
   });
@@ -98,7 +79,7 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        await expect(client.GET("/")).rejects.toBeInstanceOf(NotFoundError);
+        await expect(client.get("/")).rejects.toBeInstanceOf(NotFoundError);
       },
     );
   });
@@ -111,7 +92,7 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        await expect(client.GET("/")).rejects.toBeInstanceOf(ValidationError);
+        await expect(client.get("/")).rejects.toBeInstanceOf(ValidationError);
       },
     );
   });
@@ -124,7 +105,7 @@ describe("buildApiClient", () => {
       },
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
-        await expect(client.GET("/")).rejects.toBeInstanceOf(ApiError);
+        await expect(client.get("/")).rejects.toBeInstanceOf(ApiError);
       },
     );
   });
@@ -139,12 +120,12 @@ describe("buildApiClient", () => {
       async (url) => {
         const client = buildApiClient<TestPaths>(url);
         const results = await Promise.all([
-          client.GET("/"),
-          client.GET("/"),
-          client.GET("/"),
+          client.get("/"),
+          client.get("/"),
+          client.get("/"),
         ]);
         expect(results).toHaveLength(3);
-        expect(results.every((r) => r.data?.data === body.data)).toBe(true);
+        expect(results.every((r) => r.data === body.data)).toBe(true);
       },
     );
   });
@@ -152,6 +133,6 @@ describe("buildApiClient", () => {
   it("throws when the server is unreachable", async () => {
     const port = Math.floor(Math.random() * 1000 + 60000);
     const client = buildApiClient<TestPaths>(`http://localhost:${port}`);
-    await expect(client.GET("/")).rejects.toThrow(/fetch failed|ECONNREFUSED/i);
+    await expect(client.get("/")).rejects.toThrow(/fetch failed|ECONNREFUSED/i);
   });
 });

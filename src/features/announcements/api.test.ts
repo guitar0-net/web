@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { NotFoundError, unwrap } from "@/lib/api";
+import { NotFoundError } from "@/lib/api";
 import { buildApiClient } from "@/lib/api/client";
 import { withServer } from "@/test/helpers/server";
 import type { paths } from "@/types/api";
@@ -13,13 +13,9 @@ function makeAnnouncementsApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
   return {
     fetchAnnouncements: async (): Promise<AnnouncementsList> =>
-      unwrap(await client.GET("/api/v1/announcements/")),
+      client.get("/api/v1/announcements/"),
     fetchAnnouncement: async (uuid: string): Promise<AnnouncementDetail> =>
-      unwrap(
-        await client.GET("/api/v1/announcements/{uuid}/", {
-          params: { path: { uuid } },
-        }),
-      ),
+      client.get("/api/v1/announcements/{uuid}/", { params: { path: { uuid } } }),
   };
 }
 
