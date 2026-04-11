@@ -7,3 +7,8 @@
 # Fixed in 3.0.19, waiting for distroless base image update
 # Not exploitable in our context (no CMS/S/MIME usage)
 CVE-2026-28390 exp:2026-07-01
+
+# OpenSSL: Information Disclosure via invalid RSA public key
+# Fixed in 3.0.19, waiting for distroless update
+# Not exploitable in our context (no user-supplied RSA key parsing)
+CVE-2026-31790 exp:2026-07-01
