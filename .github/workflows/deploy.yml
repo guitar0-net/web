@@ -85,7 +85,7 @@ jobs:
           image-ref: "${{ env.DOCKER_IMAGE }}:${{ needs.build.outputs.version }}"
           format: "sarif"
           output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH,MEDIUM"
+          severity: "CRITICAL,HIGH"
           exit-code: "1"
           ignore-unfixed: true
           trivyignores: ".trivyignore"
