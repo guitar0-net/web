@@ -50,13 +50,12 @@ describe("unwrap integration", () => {
       },
       async (url) => {
         const client = buildTestClient(url);
-        const result = unwrapModule.unwrap(await client.GET("/"));
-        expect(result).toEqual(body);
+        expect(await client.get("/")).toEqual(body);
       },
     );
   });
 
-  it("throws error and not called", async () => {
+  it("throws error before unwrap is called", async () => {
     const unwrapSpy = vi.spyOn(unwrapModule, "unwrap");
     await withServer(
       (_, res) => {
@@ -65,7 +64,7 @@ describe("unwrap integration", () => {
       },
       async (url) => {
         const client = buildTestClient(url);
-        await expect(client.GET("/")).rejects.toThrow(UnauthorizedError);
+        await expect(client.get("/")).rejects.toThrow(UnauthorizedError);
         expect(unwrapSpy).not.toHaveBeenCalled();
       },
     );
