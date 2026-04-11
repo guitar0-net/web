@@ -7,7 +7,7 @@
 import Link from "next/link";
 
 import { Logo } from "./logo";
-import { MainMenu } from "./main-menu";
+import { MainMenuServer } from "./main-menu-server";
 
 export function Header() {
   return (
@@ -17,7 +17,7 @@ export function Header() {
           <Logo />
         </Link>
         <div className="flex justify-center">
-          <MainMenu />
+          <MainMenuServer />
         </div>
       </div>
     </header>
