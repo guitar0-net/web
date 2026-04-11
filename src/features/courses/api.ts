@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { apiClient, unwrap } from "@/lib/api";
+import { apiClient } from "@/lib/api";
 import { components } from "@/types/api";
 
 export type CoursesListItem = components["schemas"]["CoursesList"];
@@ -10,5 +10,5 @@ export type CoursesList = CoursesListItem[];
 
 export const coursesApi = {
   fetchCourses: async (): Promise<CoursesList> =>
-    unwrap(await apiClient.GET("/api/v1/courses/", { cache: "no-store" })),
+    apiClient.get("/api/v1/courses/", { cache: "no-store" }),
 };

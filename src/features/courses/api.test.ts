@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { NotFoundError, unwrap } from "@/lib/api";
+import { NotFoundError } from "@/lib/api";
 import { buildApiClient } from "@/lib/api/client";
 import { withServer } from "@/test/helpers/server";
 import type { paths } from "@/types/api";
@@ -13,7 +13,7 @@ function makeCoursesApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
   return {
     fetchCourses: async (): Promise<CoursesList> =>
-      unwrap(await client.GET("/api/v1/courses/", { cache: "no-store" })),
+      client.get("/api/v1/courses/", { cache: "no-store" }),
   };
 }
 

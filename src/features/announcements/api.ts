@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { apiClient, unwrap } from "@/lib/api";
+import { apiClient } from "@/lib/api";
 import type { components } from "@/types/api";
 
 export type AnnouncementsListItem = components["schemas"]["AnnouncementsList"];
@@ -11,11 +11,7 @@ export type AnnouncementsList = AnnouncementsListItem[];
 
 export const announcementsApi = {
   fetchAnnouncements: async (): Promise<AnnouncementsList> =>
-    unwrap(await apiClient.GET("/api/v1/announcements/")),
+    apiClient.get("/api/v1/announcements/"),
   fetchAnnouncement: async (uuid: string): Promise<AnnouncementDetail> =>
-    unwrap(
-      await apiClient.GET("/api/v1/announcements/{uuid}/", {
-        params: { path: { uuid } },
-      }),
-    ),
+    apiClient.get("/api/v1/announcements/{uuid}/", { params: { path: { uuid } } }),
 };
