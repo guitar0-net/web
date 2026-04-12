@@ -9,7 +9,7 @@ import { MainMenu } from "./main-menu";
 export async function MainMenuServer() {
   let courses: CoursesList | null = null;
   try {
-    courses = await coursesApi.fetchCourses();
+    courses = (await coursesApi.fetchCourses()).results;
   } catch (error) {
     console.error("[MainMenuServer] Failed to fetch courses:", error);
   }
