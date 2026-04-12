@@ -7,13 +7,20 @@ import { buildApiClient } from "@/lib/api/client";
 import { withServer } from "@/test/helpers/server";
 import type { paths } from "@/types/api";
 
-import type { AnnouncementDetail, AnnouncementsList } from "./api";
+import type {
+  AnnouncementDetail,
+  AnnouncementsList,
+  PaginatedAnnouncementsList,
+} from "./api";
 
 function makeAnnouncementsApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
   return {
-    fetchAnnouncements: async (): Promise<AnnouncementsList> =>
-      client.get("/api/v1/announcements/"),
+    fetchAnnouncements: async (params?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<PaginatedAnnouncementsList> =>
+      client.get("/api/v1/announcements/", { params: { query: params } }),
     fetchAnnouncement: async (uuid: string): Promise<AnnouncementDetail> =>
       client.get("/api/v1/announcements/{uuid}/", { params: { path: { uuid } } }),
   };
@@ -69,14 +76,15 @@ it("fetchAnnouncement returns detail on 200", async () => {
   );
 });
 
-it("fetchAnnouncements returns list on 200", async () => {
-  const body: AnnouncementsList = [
+it("fetchAnnouncements returns paginated list on 200", async () => {
+  const items: AnnouncementsList = [
     {
       uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       title: "Новый релиз",
       slug: "novyj-reliz",
     },
   ];
+  const body: PaginatedAnnouncementsList = { count: items.length, results: items };
   await withServer(
     (_, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });
