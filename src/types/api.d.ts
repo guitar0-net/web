@@ -317,6 +317,66 @@ export interface components {
       video_url: string;
       readonly songs: components["schemas"]["SongList"][];
     };
+    PaginatedAnnouncementsListList: {
+      /** @example 123 */
+      count: number;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=400&limit=100
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=200&limit=100
+       */
+      previous?: string | null;
+      results: components["schemas"]["AnnouncementsList"][];
+    };
+    PaginatedChordsListList: {
+      /** @example 123 */
+      count: number;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=400&limit=100
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=200&limit=100
+       */
+      previous?: string | null;
+      results: components["schemas"]["ChordsList"][];
+    };
+    PaginatedCoursesListList: {
+      /** @example 123 */
+      count: number;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=400&limit=100
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=200&limit=100
+       */
+      previous?: string | null;
+      results: components["schemas"]["CoursesList"][];
+    };
+    PaginatedLessonsListList: {
+      /** @example 123 */
+      count: number;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=400&limit=100
+       */
+      next?: string | null;
+      /**
+       * Format: uri
+       * @example http://api.example.org/accounts/?offset=200&limit=100
+       */
+      previous?: string | null;
+      results: components["schemas"]["LessonsList"][];
+    };
     /** @description Song detail serializer. */
     SongDetail: {
       readonly id: number;
@@ -349,7 +409,12 @@ export type $defs = Record<string, never>;
 export interface operations {
   chords_list: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Number of results to return per page. */
+        limit?: number;
+        /** @description The initial index from which to return the results. */
+        offset?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -361,7 +426,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["ChordsList"][];
+          "application/json": components["schemas"]["PaginatedChordsListList"];
         };
       };
     };
@@ -389,7 +454,12 @@ export interface operations {
   };
   lessons_list: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Number of results to return per page. */
+        limit?: number;
+        /** @description The initial index from which to return the results. */
+        offset?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -401,7 +471,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["LessonsList"][];
+          "application/json": components["schemas"]["PaginatedLessonsListList"];
         };
       };
     };
@@ -429,7 +499,12 @@ export interface operations {
   };
   courses_list: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Number of results to return per page. */
+        limit?: number;
+        /** @description The initial index from which to return the results. */
+        offset?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -441,7 +516,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["CoursesList"][];
+          "application/json": components["schemas"]["PaginatedCoursesListList"];
         };
       };
     };
@@ -469,7 +544,12 @@ export interface operations {
   };
   announcements_list: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description Number of results to return per page. */
+        limit?: number;
+        /** @description The initial index from which to return the results. */
+        offset?: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -481,7 +561,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["AnnouncementsList"][];
+          "application/json": components["schemas"]["PaginatedAnnouncementsListList"];
         };
       };
     };
