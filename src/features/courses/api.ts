@@ -7,8 +7,12 @@ import { components } from "@/types/api";
 
 export type CoursesListItem = components["schemas"]["CoursesList"];
 export type CoursesList = CoursesListItem[];
+export type PaginatedCoursesList = components["schemas"]["PaginatedCoursesListList"];
 
 export const coursesApi = {
-  fetchCourses: async (): Promise<CoursesList> =>
-    apiClient.get("/api/v1/courses/", { cache: "no-store" }),
+  fetchCourses: async (params?: {
+    limit?: number;
+    offset?: number;
+  }): Promise<PaginatedCoursesList> =>
+    apiClient.get("/api/v1/courses/", { cache: "no-store", params: { query: params } }),
 };

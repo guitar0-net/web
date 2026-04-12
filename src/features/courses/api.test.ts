@@ -7,13 +7,16 @@ import { buildApiClient } from "@/lib/api/client";
 import { withServer } from "@/test/helpers/server";
 import type { paths } from "@/types/api";
 
-import type { CoursesList } from "./api";
+import type { CoursesList, PaginatedCoursesList } from "./api";
 
 function makeCoursesApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
   return {
-    fetchCourses: async (): Promise<CoursesList> =>
-      client.get("/api/v1/courses/", { cache: "no-store" }),
+    fetchCourses: async (params?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<PaginatedCoursesList> =>
+      client.get("/api/v1/courses/", { cache: "no-store", params: { query: params } }),
   };
 }
 
@@ -31,14 +34,15 @@ it("fetchCourses throws NotFoundError on 404", async () => {
   );
 });
 
-it("fetchCourses returns courses list on 200", async () => {
-  const body: CoursesList = [
+it("fetchCourses returns paginated list on 200", async () => {
+  const items: CoursesList = [
     {
       uuid: "c9f1e2d3-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
       title: "Основы гитары",
       lessons_count: 7,
     },
   ];
+  const body: PaginatedCoursesList = { count: items.length, results: items };
   await withServer(
     (_, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });
