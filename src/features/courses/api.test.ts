@@ -16,7 +16,10 @@ function makeCoursesApi(baseUrl: string) {
       limit?: number;
       offset?: number;
     }): Promise<PaginatedCoursesList> =>
-      client.get("/api/v1/courses/", { cache: "no-store", params: { query: params } }),
+      client.get("/api/v1/courses/", {
+        next: { revalidate: 3600 },
+        params: { query: params },
+      }),
   };
 }
 
@@ -39,6 +42,7 @@ it("fetchCourses returns paginated list on 200", async () => {
     {
       uuid: "c9f1e2d3-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
       title: "Основы гитары",
+      description: "",
       lessons_count: 7,
     },
   ];
