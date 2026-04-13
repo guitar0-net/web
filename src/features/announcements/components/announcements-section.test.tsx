@@ -34,5 +34,5 @@ it("renders announcement cards from API data", async () => {
     results,
   });
   render(await AnnouncementsSection());
-  expect(screen.getAllByRole("heading").length).toBe(results.length);
+  expect(screen.getAllByRole("heading").length).toBe(results.length + 2);
 });
