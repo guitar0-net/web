@@ -4,11 +4,18 @@
 
 import { Dot } from "lucide-react";
 
-import { announcementsApi } from "../api";
+import { type AnnouncementsListItem, announcementsApi } from "../api";
 import { AnnouncementCard } from "./announcement-card";
 
 export async function AnnouncementsSection() {
-  const { results } = await announcementsApi.fetchAnnouncements({ limit: 3 });
+  let results: AnnouncementsListItem[];
+  try {
+    const data = await announcementsApi.fetchAnnouncements({ limit: 3 });
+    results = data.results;
+  } catch (error) {
+    console.error("[AnnouncementsSection] Failed to fetch announcements:", error);
+    return null;
+  }
 
   return (
     <section className="py-12">

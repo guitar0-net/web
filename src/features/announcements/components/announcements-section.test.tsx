@@ -14,6 +14,13 @@ vi.mock("../api", () => ({
   announcementsApi: { fetchAnnouncements: vi.fn() },
 }));
 
+it("renders nothing when the API throws", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+  vi.mocked(announcementsApi.fetchAnnouncements).mockRejectedValueOnce(new Error());
+  const result = await AnnouncementsSection();
+  expect(result).toBeNull();
+});
+
 it("renders nothing when the API returns an empty list", async () => {
   vi.mocked(announcementsApi.fetchAnnouncements).mockResolvedValueOnce({
     count: 0,
