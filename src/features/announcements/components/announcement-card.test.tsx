@@ -29,3 +29,25 @@ it("renders the publication date when published_at is provided", () => {
   render(<AnnouncementCard announcement={announcement} />);
   expect(screen.getByRole("time")).toBeInTheDocument();
 });
+
+it("renders product_version badge when product_version is provided", () => {
+  const version = `v${Math.floor(Math.random() * 10)}.${Math.floor(Math.random() * 100)}.0`;
+  const announcement = {
+    uuid: crypto.randomUUID(),
+    title: `Анонс-${Math.random().toString(36).slice(2)}`,
+    slug: "anons",
+    product_version: version,
+  };
+  render(<AnnouncementCard announcement={announcement} />);
+  expect(screen.getByText(version)).toBeInTheDocument();
+});
+
+it("does not render product_version badge when product_version is absent", () => {
+  const announcement = {
+    uuid: crypto.randomUUID(),
+    title: `Анонс-${Math.random().toString(36).slice(2)}`,
+    slug: "anons",
+  };
+  render(<AnnouncementCard announcement={announcement} />);
+  expect(screen.queryByRole("mark")).not.toBeInTheDocument();
+});
