@@ -19,13 +19,16 @@ vi.mock("@/features/courses", () => ({
 describe("MainMenuServer", () => {
   it("renders course titles fetched from the API in the dropdown", async () => {
     const title = `Гитара-${Math.random().toString(36).slice(2)}`;
-    vi.mocked(coursesApi.fetchCourses).mockResolvedValueOnce([
-      {
-        uuid: crypto.randomUUID(),
-        title,
-        lessons_count: Math.floor(Math.random() * 20),
-      },
-    ]);
+    vi.mocked(coursesApi.fetchCourses).mockResolvedValueOnce({
+      count: 1,
+      results: [
+        {
+          uuid: crypto.randomUUID(),
+          title,
+          lessons_count: Math.floor(Math.random() * 20),
+        },
+      ],
+    });
     render(await MainMenuServer());
     await userEvent.click(screen.getByRole("button", { name: "Курсы" }));
     expect(screen.getByRole("link", { name: title })).toBeInTheDocument();

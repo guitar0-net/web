@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export { announcementsApi } from "./api";
-export type { AnnouncementsList } from "./api";
+export { AnnouncementsSection } from "./components/announcements-section";

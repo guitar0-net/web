@@ -8,6 +8,19 @@ paths:
     get:
       operationId: chords_list
       description: List all chords.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - chords
       security:
@@ -18,9 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChordsList'
+                $ref: '#/components/schemas/PaginatedChordsListList'
           description: ''
   /api/v1/chords/{id}/:
     get:
@@ -48,6 +59,19 @@ paths:
     get:
       operationId: lessons_list
       description: List all published lessons.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - lessons
       security:
@@ -58,9 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LessonsList'
+                $ref: '#/components/schemas/PaginatedLessonsListList'
           description: ''
   /api/v1/lessons/{uuid}/:
     get:
@@ -89,6 +111,19 @@ paths:
     get:
       operationId: courses_list
       description: List all published courses.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - courses
       security:
@@ -99,9 +134,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CoursesList'
+                $ref: '#/components/schemas/PaginatedCoursesListList'
           description: ''
   /api/v1/courses/{uuid}/:
     get:
@@ -130,6 +163,19 @@ paths:
     get:
       operationId: announcements_list
       description: List all published announcements.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - announcements
       security:
@@ -140,9 +186,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AnnouncementsList'
+                $ref: '#/components/schemas/PaginatedAnnouncementsListList'
           description: ''
   /api/v1/announcements/{uuid}/:
     get:
@@ -501,6 +545,98 @@ components:
       - title
       - uuid
       - video_url
+    PaginatedAnnouncementsListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementsList'
+    PaginatedChordsListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChordsList'
+    PaginatedCoursesListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoursesList'
+    PaginatedLessonsListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LessonsList'
     SongDetail:
       type: object
       description: Song detail serializer.
