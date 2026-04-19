@@ -7,6 +7,14 @@ import Link from "next/link";
 import { FaTelegram, FaVk, FaYoutube, FaGithub } from "react-icons/fa";
 import { SiGoogleplay } from "react-icons/si";
 
+import {
+  GOOGLE_PLAY_URL,
+  YOUTUBE_URL,
+  TELEGRAM_URL,
+  VK_URL,
+  GITHUB_URL,
+} from "@/lib/constants";
+
 import { Logo } from "./logo";
 import { ThemeSwitcher } from "./theme-switcher";
 import { Separator } from "./ui/separator";
@@ -14,15 +22,15 @@ import { Separator } from "./ui/separator";
 export const START_YEAR = 2018;
 
 const SOCIAL_LINKS = [
-  { href: "https://www.youtube.com/@0guitars", icon: FaYoutube, label: "YouTube" },
-  { href: "https://t.me/konograi", icon: FaTelegram, label: "Telegram" },
-  { href: "https://vk.com/0guitars", icon: FaVk, label: "ВКонтакте" },
-  { href: "https://github.com/guitar0-net", icon: FaGithub, label: "Github" },
+  { href: YOUTUBE_URL, icon: FaYoutube, label: "YouTube" },
+  { href: TELEGRAM_URL, icon: FaTelegram, label: "Telegram" },
+  { href: VK_URL, icon: FaVk, label: "ВКонтакте" },
+  { href: GITHUB_URL, icon: FaGithub, label: "Github" },
 ] as const;
 
 const APP_LINKS = [
   {
-    href: "https://play.google.com/store/apps/details?id=com.andreykotlyar.guitar0",
+    href: GOOGLE_PLAY_URL,
     icon: SiGoogleplay,
     label: "Google Play",
   },
