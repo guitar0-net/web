@@ -8,6 +8,7 @@ import { Suspense } from "react";
 
 import { HeroSection } from "@/components/hero-section";
 import { AnnouncementsSection } from "@/features/announcements";
+import { ReviewsSection } from "@/features/reviews";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Suspense>
           <AnnouncementsSection />
         </Suspense>
+        <ReviewsSection />
       </main>
     </div>
   );
