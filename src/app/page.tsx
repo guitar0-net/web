@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { Suspense } from "react";
+
 import { HeroSection } from "@/components/hero-section";
 import { AnnouncementsSection } from "@/features/announcements";
 
@@ -10,7 +12,9 @@ export default function Home() {
     <div className="flex flex-1 flex-col font-sans">
       <main className="flex-1">
         <HeroSection />
-        <AnnouncementsSection />
+        <Suspense>
+          <AnnouncementsSection />
+        </Suspense>
       </main>
     </div>
   );
