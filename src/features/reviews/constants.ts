@@ -2,13 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export interface Review {
-  id: string;
-  author: string;
-  text: string;
-  date: string;
-  rating: number;
-}
+import { Review } from "./types";
 
 export const REVIEWS: Review[] = [
   {
