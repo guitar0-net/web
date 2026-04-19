@@ -14,8 +14,5 @@ export const coursesApi = {
     limit?: number;
     offset?: number;
   }): Promise<PaginatedCoursesList> =>
-    apiClient.get("/api/v1/courses/", {
-      next: { revalidate: 3600 },
-      params: { query: params },
-    }),
+    apiClient.get("/api/v1/courses/", { params: { query: params } }),
 };

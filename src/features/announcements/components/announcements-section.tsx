@@ -2,20 +2,15 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Dot } from "lucide-react";
+import { connection } from "next/server";
 
-import { type AnnouncementsListItem, announcementsApi } from "../api";
+import { announcementsApi } from "../api";
 import { AnnouncementCard } from "./announcement-card";
 
 export async function AnnouncementsSection() {
-  let results: AnnouncementsListItem[];
-  try {
-    const data = await announcementsApi.fetchAnnouncements({ limit: 3 });
-    results = data.results;
-  } catch (error) {
-    console.error("[AnnouncementsSection] Failed to fetch announcements:", error);
-    return null;
-  }
+  await connection();
+  const data = await announcementsApi.fetchAnnouncements({ limit: 3 });
+  const results = data.results;
 
   return (
     <section className="py-12">

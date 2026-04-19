@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { FaTelegram, FaVk, FaYoutube, FaGithub } from "react-icons/fa";
 import { SiGoogleplay } from "react-icons/si";
@@ -27,7 +28,9 @@ const APP_LINKS = [
   },
 ] as const;
 
-export function Footer() {
+export async function Footer() {
+  "use cache";
+  cacheLife("days");
   const currentYear = new Date().getFullYear();
   const displayYear =
     currentYear > START_YEAR ? `${START_YEAR}–${currentYear}` : START_YEAR;

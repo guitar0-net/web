@@ -10,15 +10,14 @@ import { vi } from "vitest";
 import { announcementsApi } from "../api";
 import { AnnouncementsSection } from "./announcements-section";
 
+vi.mock("next/server", () => ({ connection: vi.fn() }));
 vi.mock("../api", () => ({
   announcementsApi: { fetchAnnouncements: vi.fn() },
 }));
 
-it("renders nothing when the API throws", async () => {
-  vi.spyOn(console, "error").mockImplementation(() => {});
+it("throws when the API throws", async () => {
   vi.mocked(announcementsApi.fetchAnnouncements).mockRejectedValueOnce(new Error());
-  const result = await AnnouncementsSection();
-  expect(result).toBeNull();
+  await expect(AnnouncementsSection()).rejects.toThrow();
 });
 
 it("renders nothing when the API returns an empty list", async () => {

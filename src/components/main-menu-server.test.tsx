@@ -12,6 +12,7 @@ import { coursesApi } from "@/features/courses";
 
 import { MainMenuServer } from "./main-menu-server";
 
+vi.mock("next/cache", () => ({ cacheLife: vi.fn() }));
 vi.mock("@/features/courses", () => ({
   coursesApi: { fetchCourses: vi.fn() },
 }));
