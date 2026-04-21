@@ -8,6 +8,7 @@ import { Suspense } from "react";
 
 import { HeroSection } from "@/components/hero-section";
 import { AnnouncementsSection } from "@/features/announcements";
+import { OpenSourceSection } from "@/features/open-source";
 import { ReviewsSection } from "@/features/reviews";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
           <AnnouncementsSection />
         </Suspense>
         <ReviewsSection />
+        <OpenSourceSection />
       </main>
     </div>
   );
