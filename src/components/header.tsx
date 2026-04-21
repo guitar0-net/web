@@ -7,7 +7,7 @@
 import Link from "next/link";
 
 import { Logo } from "./logo";
-import { MainMenuServer } from "./main-menu-server";
+import { MainMenuServer } from "./main-menu";
 
 export function Header() {
   return (

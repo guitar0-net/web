@@ -4,14 +4,14 @@
 
 import { cacheLife } from "next/cache";
 
-import { type CoursesList, coursesApi } from "@/features/courses";
+import { coursesApi } from "@/features/courses";
 
-import { MainMenu } from "./main-menu";
+import { MainMenu, type CourseMenuItem } from "./main-menu";
 
 export async function MainMenuServer() {
   "use cache";
   cacheLife("hours");
-  let courses: CoursesList | null = null;
+  let courses: CourseMenuItem[] | null = null;
   try {
     courses = (await coursesApi.fetchCourses()).results;
   } catch (error) {
