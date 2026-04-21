@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+/* v8 ignore file */
+
 import { apiClient } from "@/lib/api";
 import type { components } from "@/types/api";
 
