@@ -9,3 +9,5 @@ export const YOUTUBE_URL = "https://www.youtube.com/@0guitars";
 export const TELEGRAM_URL = "https://t.me/konograi";
 export const VK_URL = "https://vk.com/0guitars";
 export const GITHUB_URL = "https://github.com/guitar0-net";
+export const GITHUB_BACKEND_URL = "https://github.com/guitar0-net/backend";
+export const GITHUB_WEB_URL = "https://github.com/guitar0-net/web";
