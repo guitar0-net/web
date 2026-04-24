@@ -13,6 +13,7 @@ export type CoursesListItem = components["schemas"]["CoursesList"];
 export type CoursesList = CoursesListItem[];
 export type PaginatedCoursesList = components["schemas"]["PaginatedCoursesListList"];
 export type CourseDetail = components["schemas"]["CourseDetail"];
+export type CourseLessonDetail = components["schemas"]["CourseLessonDetail"];
 
 export const coursesApi = {
   fetchCourses: async (params?: {
