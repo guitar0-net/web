@@ -4,12 +4,15 @@
 
 /* v8 ignore file */
 
+import { cacheLife } from "next/cache";
+
 import { apiClient } from "@/lib/api";
 import { components } from "@/types/api";
 
 export type CoursesListItem = components["schemas"]["CoursesList"];
 export type CoursesList = CoursesListItem[];
 export type PaginatedCoursesList = components["schemas"]["PaginatedCoursesListList"];
+export type CourseDetail = components["schemas"]["CourseDetail"];
 
 export const coursesApi = {
   fetchCourses: async (params?: {
@@ -17,4 +20,10 @@ export const coursesApi = {
     offset?: number;
   }): Promise<PaginatedCoursesList> =>
     apiClient.get("/api/v1/courses/", { params: { query: params } }),
+
+  fetchCourse: async (uuid: string): Promise<CourseDetail> => {
+    "use cache";
+    cacheLife("days");
+    return apiClient.get("/api/v1/courses/{uuid}/", { params: { path: { uuid } } });
+  },
 };

@@ -7,7 +7,7 @@ import { buildApiClient } from "@/lib/api/client";
 import { withServer } from "@/test/helpers/server";
 import type { paths } from "@/types/api";
 
-import type { CoursesList, PaginatedCoursesList } from "./api";
+import type { CourseDetail, CoursesList, PaginatedCoursesList } from "./api";
 
 function makeCoursesApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
@@ -20,8 +20,44 @@ function makeCoursesApi(baseUrl: string) {
         next: { revalidate: 3600 },
         params: { query: params },
       }),
+    fetchCourse: async (uuid: string): Promise<CourseDetail> =>
+      client.get("/api/v1/courses/{uuid}/", { params: { path: { uuid } } }),
   };
 }
+
+it("fetchCourse throws NotFoundError on 404", async () => {
+  await withServer(
+    (_, res) => {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ detail: "not found" }));
+    },
+    async (url) => {
+      await expect(
+        makeCoursesApi(url).fetchCourse("nonexistent-uuid"),
+      ).rejects.toBeInstanceOf(NotFoundError);
+    },
+  );
+});
+
+it("fetchCourse returns CourseDetail on 200", async () => {
+  const body: CourseDetail = {
+    uuid: "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    title: "Джазовая гитара",
+    description: "Основы джазовой импровизации",
+    created_at: "2026-01-10T08:00:00Z",
+    updated_at: "2026-02-20T12:00:00Z",
+    lessons: [],
+  };
+  await withServer(
+    (_, res) => {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(body));
+    },
+    async (url) => {
+      expect(await makeCoursesApi(url).fetchCourse(body.uuid)).toEqual(body);
+    },
+  );
+});
 
 it("fetchCourses throws NotFoundError on 404", async () => {
   await withServer(
