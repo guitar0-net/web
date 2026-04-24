@@ -4,20 +4,21 @@
 
 /* v8 ignore file */
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { CourseHeaderSkeleton } from "@/features/courses/components/course-header-skeleton";
+import { LessonCardSkeleton } from "@/features/courses/components/lesson-card-skeleton";
 
 export default function CourseLoading() {
   return (
     <>
       <CourseHeaderSkeleton />
-      <main className="container mx-auto px-2 py-12">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div key={i} className="flex items-center gap-4 border-b py-4">
-            <Skeleton className="h-5 w-6 shrink-0" />
-            <Skeleton className="h-5 w-3/4" />
-          </div>
-        ))}
+      <main className="container mx-auto px-4 py-8">
+        <ol className="space-y-4">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <li key={i}>
+              <LessonCardSkeleton />
+            </li>
+          ))}
+        </ol>
       </main>
     </>
   );
