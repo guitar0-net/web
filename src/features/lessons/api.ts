@@ -10,6 +10,8 @@ import type { components } from "@/types/api";
 export type LessonDetail = components["schemas"]["LessonDetail"];
 
 export const lessonsApi = {
-  fetchLesson: async (uuid: string): Promise<LessonDetail> =>
-    apiClient.get("/api/v1/lessons/{uuid}/", { params: { path: { uuid } } }),
+  fetchLesson: async (uuid: string, courseUuid?: string): Promise<LessonDetail> =>
+    apiClient.get("/api/v1/lessons/{uuid}/", {
+      params: { path: { uuid }, query: { course: courseUuid } },
+    }),
 };
