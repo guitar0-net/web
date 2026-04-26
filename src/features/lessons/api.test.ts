@@ -12,8 +12,10 @@ import type { LessonDetail } from "./api";
 function makeLessonsApi(baseUrl: string) {
   const client = buildApiClient<paths>(baseUrl);
   return {
-    fetchLesson: async (uuid: string): Promise<LessonDetail> =>
-      client.get("/api/v1/lessons/{uuid}/", { params: { path: { uuid } } }),
+    fetchLesson: async (uuid: string, courseUuid?: string): Promise<LessonDetail> =>
+      client.get("/api/v1/lessons/{uuid}/", {
+        params: { path: { uuid }, query: { course: courseUuid } },
+      }),
   };
 }
 
@@ -31,7 +33,7 @@ it("fetchLesson throws NotFoundError on 404", async () => {
   );
 });
 
-it("fetchLesson returns LessonDetail on 200", async () => {
+it("fetchLesson returns LessonDetail without course on 200", async () => {
   const body: LessonDetail = {
     uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     title: "Барре на 5-м ладу",
@@ -47,6 +49,35 @@ it("fetchLesson returns LessonDetail on 200", async () => {
     },
     async (url) => {
       expect(await makeLessonsApi(url).fetchLesson(body.uuid)).toEqual(body);
+    },
+  );
+});
+
+it("fetchLesson passes course query param and returns course in response", async () => {
+  const courseUuid = "b2c3d4e5-f6a7-8901-bcde-f12345678901";
+  const body: LessonDetail = {
+    uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    title: "Барре на 5-м ладу",
+    video_url: "https://example.com/video",
+    songs: [],
+    addition_lessons: [],
+    course: { uuid: courseUuid, title: "Джаз для начинающих" },
+  };
+  await withServer(
+    (req, res) => {
+      const url = new URL(req.url ?? "", "http://localhost");
+      if (url.searchParams.get("course") !== courseUuid) {
+        res.writeHead(400);
+        res.end();
+        return;
+      }
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(body));
+    },
+    async (url) => {
+      expect(await makeLessonsApi(url).fetchLesson(body.uuid, courseUuid)).toEqual(
+        body,
+      );
     },
   );
 });
