@@ -201,6 +201,10 @@ export interface components {
       /** Есть барре? */
       has_barre?: boolean;
       readonly positions: components["schemas"]["ChordPosition"][];
+      /** SVG горизонтальный */
+      svg_horizontal?: string;
+      /** SVG вертикальный */
+      svg_vertical?: string;
     };
     /** @description Serializer for one string position. */
     ChordPosition: {
@@ -222,6 +226,10 @@ export interface components {
       /** Музыкальное название */
       musical_title: string;
       readonly positions: components["schemas"]["ChordPosition"][];
+      /** SVG горизонтальный */
+      svg_horizontal?: string;
+      /** SVG вертикальный */
+      svg_vertical?: string;
     };
     /** @description Serializer for course detail. */
     CourseDetail: {
@@ -297,6 +305,11 @@ export interface components {
       duration?: number;
       readonly songs: components["schemas"]["SongDetail"][];
       readonly addition_lessons: components["schemas"]["LessonsList"][];
+      readonly course: {
+        /** Format: uuid */
+        uuid: string;
+        title: string;
+      } | null;
     };
     /** @description Serializer for lessons list. */
     LessonsList: {
@@ -478,7 +491,10 @@ export interface operations {
   };
   lessons_retrieve: {
     parameters: {
-      query?: never;
+      query?: {
+        /** @description UUID of the parent course. When provided, populates the `course` field in the response for breadcrumb rendering. */
+        course?: string;
+      };
       header?: never;
       path: {
         uuid: string;
