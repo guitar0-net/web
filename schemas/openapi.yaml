@@ -89,6 +89,12 @@ paths:
       operationId: lessons_retrieve
       description: Retrieve a single published lesson by UUID.
       parameters:
+      - in: query
+        name: course
+        schema:
+          type: string
+        description: UUID of the parent course. When provided, populates the `course`
+          field in the response for breadcrumb rendering.
       - in: path
         name: uuid
         schema:
@@ -317,6 +323,12 @@ components:
           items:
             $ref: '#/components/schemas/ChordPosition'
           readOnly: true
+        svg_horizontal:
+          type: string
+          title: SVG горизонтальный
+        svg_vertical:
+          type: string
+          title: SVG вертикальный
       required:
       - id
       - musical_title
@@ -366,6 +378,12 @@ components:
           items:
             $ref: '#/components/schemas/ChordPosition'
           readOnly: true
+        svg_horizontal:
+          type: string
+          title: SVG горизонтальный
+        svg_vertical:
+          type: string
+          title: SVG вертикальный
       required:
       - id
       - musical_title
@@ -507,8 +525,22 @@ components:
           items:
             $ref: '#/components/schemas/LessonsList'
           readOnly: true
+        course:
+          type: object
+          nullable: true
+          properties:
+            uuid:
+              type: string
+              format: uuid
+            title:
+              type: string
+          required:
+          - uuid
+          - title
+          readOnly: true
       required:
       - addition_lessons
+      - course
       - songs
       - title
       - uuid
