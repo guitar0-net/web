@@ -10,6 +10,11 @@
 !.yarn/releases
 !.yarn/versions
 
+# python
+.venv/
+venv/
+__pycache__/
+
 # testing
 /coverage
 
