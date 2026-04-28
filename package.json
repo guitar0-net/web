@@ -46,7 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
+    "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -67,8 +67,8 @@
     "lint-staged": "^16.4.0",
     "openapi-typescript": "^7.13.0",
     "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.7.3",
-    "shadcn": "^4.4.0",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "shadcn": "^4.5.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.0"
