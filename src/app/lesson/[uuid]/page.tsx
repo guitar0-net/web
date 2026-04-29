@@ -7,9 +7,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { coursesApi } from "@/features/courses";
-import { CourseHeader } from "@/features/courses/components/course-header";
-import { LessonList } from "@/features/courses/components/lesson-list";
+import { lessonsApi } from "@/features/lessons";
+import { LessonHeader } from "@/features/lessons/components/lesson-header";
+import { LessonVideo } from "@/features/lessons/components/lesson-video";
 import { NotFoundError } from "@/lib/api";
 
 interface Props {
@@ -19,29 +19,30 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { uuid } = await params;
   try {
-    const course = await coursesApi.fetchCourse(uuid);
-    return { title: course.title };
+    const lesson = await lessonsApi.fetchLesson(uuid);
+    return {
+      title: `${lesson.title} | guitar0.net`,
+      description: lesson.description,
+    };
   } catch (err) {
     if (err instanceof NotFoundError) return {};
     throw err;
   }
 }
 
-export default async function CoursePage({ params }: Props) {
+export default async function LessonPage({ params }: Props) {
   const { uuid } = await params;
-  let course;
+  let lesson;
   try {
-    course = await coursesApi.fetchCourse(uuid);
+    lesson = await lessonsApi.fetchLesson(uuid);
   } catch (err) {
     if (err instanceof NotFoundError) notFound();
     throw err;
   }
   return (
     <>
-      <CourseHeader course={course} />
-      <main className="container mx-auto px-4 py-8">
-        <LessonList lessons={course.lessons} />
-      </main>
+      <LessonHeader title={lesson.title} description={lesson.description} />
+      <LessonVideo videoUrl={lesson.video_url} />
     </>
   );
 }
