@@ -21,8 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const course = await coursesApi.fetchCourse(uuid);
     return { title: course.title };
-  } catch {
-    return {};
+  } catch (err) {
+    if (err instanceof NotFoundError) return {};
+    throw err;
   }
 }
 
