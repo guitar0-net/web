@@ -37,9 +37,6 @@ test: ## Run tests
 install_e2e: ## Install dependencies for end-to-end tests
 	pip install -r requirements.txt
 
-e2e: ## Run end-to-end tests
-	python "e2e/test.py"
-
 ci: lint format typecheck test ## Run all checks (lint, format, typecheck, test)
 
 loc: ## Count lines of code vs tests
