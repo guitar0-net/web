@@ -156,6 +156,48 @@ it("calls onVisibleToggle when visibility button is clicked", async () => {
   expect(onVisibleToggle).toHaveBeenCalledOnce();
 });
 
+it("falls back to svg_horizontal when svg_vertical is absent in vertical mode", () => {
+  const chord = makeChord({
+    svg_vertical: undefined,
+    svg_horizontal: "<svg><circle/></svg>",
+  });
+  const { container } = render(
+    <ChordsSection
+      chords={[chord]}
+      size={3}
+      orientation="vertical"
+      visible={true}
+      onOrientationToggle={() => {}}
+      onSizeDecrease={() => {}}
+      onSizeIncrease={() => {}}
+      onVisibleToggle={() => {}}
+    />,
+  );
+  const chordSvg = container.querySelector("[data-testid='chord-svg']");
+  expect(chordSvg?.querySelector("circle")).toBeInTheDocument();
+});
+
+it("falls back to svg_vertical when svg_horizontal is absent in horizontal mode", () => {
+  const chord = makeChord({
+    svg_vertical: "<svg><rect/></svg>",
+    svg_horizontal: undefined,
+  });
+  const { container } = render(
+    <ChordsSection
+      chords={[chord]}
+      size={3}
+      orientation="horizontal"
+      visible={true}
+      onOrientationToggle={() => {}}
+      onSizeDecrease={() => {}}
+      onSizeIncrease={() => {}}
+      onVisibleToggle={() => {}}
+    />,
+  );
+  const chordSvg = container.querySelector("[data-testid='chord-svg']");
+  expect(chordSvg?.querySelector("rect")).toBeInTheDocument();
+});
+
 it("hides chord items when visible is false", () => {
   const chord = makeChord();
   render(

@@ -44,10 +44,7 @@ export function TextSection({
   return (
     <section>
       <SectionHeader Icon={Text} title="Текст" ControlGroup={TextControlGroup} />
-      <div
-        data-testid="tab-text"
-        className={cn(TEXT_SIZE[size] ?? "text-base", "space-y-2")}
-      >
+      <div data-testid="tab-text" className={cn(TEXT_SIZE[size], "space-y-2")}>
         <ReactMarkdown
           components={{
             pre: ({ children, node: _node, ...props }) => (

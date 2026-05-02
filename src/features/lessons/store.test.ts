@@ -4,6 +4,10 @@
 
 import { createSongPreferencesStore } from "./store";
 
+vi.stubGlobal("window", {
+  localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+});
+
 it("has default schemeSize of 3", () => {
   const store = createSongPreferencesStore();
   expect(store.getState().schemeSize).toBe(3);

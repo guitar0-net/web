@@ -4,9 +4,11 @@
 
 // @vitest-environment jsdom
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import type { SongDetail } from "../api";
+import { useSongPreferencesStore } from "../store";
 import { SongCard } from "./song-card";
 
 function makeSong(overrides: Partial<SongDetail> = {}): SongDetail {
@@ -77,4 +79,85 @@ it("always renders the tab text section", () => {
   const song = makeSong({ text: "Текст-уникальный" });
   render(<SongCard song={song} />);
   expect(screen.getByTestId("tab-text")).toBeInTheDocument();
+});
+
+const CHORD = { id: 1, title: "Dm", musical_title: "D minor", positions: [] };
+const SCHEME = { id: 1, image: "https://example.com/s.png" };
+
+function chordsSection() {
+  return screen
+    .getByRole("heading", { name: /аккорды/i })
+    .closest("section") as HTMLElement;
+}
+
+function schemesSection() {
+  return screen
+    .getByRole("heading", { name: /бои/i })
+    .closest("section") as HTMLElement;
+}
+
+it("clicking chord size decrease invokes decreaseSize for chordSize", async () => {
+  useSongPreferencesStore.setState({ chordSize: 3, chordVisible: true });
+  render(<SongCard song={makeSong({ chords: [CHORD] })} />);
+  await userEvent.click(
+    within(chordsSection()).getByRole("button", { name: /decrease/i }),
+  );
+  expect(useSongPreferencesStore.getState().chordSize).toBe(2);
+});
+
+it("clicking chord size increase invokes increaseSize for chordSize", async () => {
+  useSongPreferencesStore.setState({ chordSize: 3, chordVisible: true });
+  render(<SongCard song={makeSong({ chords: [CHORD] })} />);
+  await userEvent.click(
+    within(chordsSection()).getByRole("button", { name: /increase/i }),
+  );
+  expect(useSongPreferencesStore.getState().chordSize).toBe(4);
+});
+
+it("clicking chord visibility toggle invokes toggle for chordVisible", async () => {
+  useSongPreferencesStore.setState({ chordVisible: true });
+  render(<SongCard song={makeSong({ chords: [CHORD] })} />);
+  await userEvent.click(within(chordsSection()).getByRole("button", { name: /hide/i }));
+  expect(useSongPreferencesStore.getState().chordVisible).toBe(false);
+});
+
+it("clicking scheme size decrease invokes decreaseSize for schemeSize", async () => {
+  useSongPreferencesStore.setState({ schemeSize: 3, schemeVisible: true });
+  render(<SongCard song={makeSong({ schemes: [SCHEME] })} />);
+  await userEvent.click(
+    within(schemesSection()).getByRole("button", { name: /decrease/i }),
+  );
+  expect(useSongPreferencesStore.getState().schemeSize).toBe(2);
+});
+
+it("clicking scheme size increase invokes increaseSize for schemeSize", async () => {
+  useSongPreferencesStore.setState({ schemeSize: 3, schemeVisible: true });
+  render(<SongCard song={makeSong({ schemes: [SCHEME] })} />);
+  await userEvent.click(
+    within(schemesSection()).getByRole("button", { name: /increase/i }),
+  );
+  expect(useSongPreferencesStore.getState().schemeSize).toBe(4);
+});
+
+it("clicking scheme visibility toggle invokes toggle for schemeVisible", async () => {
+  useSongPreferencesStore.setState({ schemeVisible: true });
+  render(<SongCard song={makeSong({ schemes: [SCHEME] })} />);
+  await userEvent.click(
+    within(schemesSection()).getByRole("button", { name: /hide/i }),
+  );
+  expect(useSongPreferencesStore.getState().schemeVisible).toBe(false);
+});
+
+it("clicking text size decrease invokes decreaseSize for textSize", async () => {
+  useSongPreferencesStore.setState({ textSize: 3 });
+  render(<SongCard song={makeSong({ chords: [], schemes: [] })} />);
+  await userEvent.click(screen.getByRole("button", { name: /decrease/i }));
+  expect(useSongPreferencesStore.getState().textSize).toBe(2);
+});
+
+it("clicking text size increase invokes increaseSize for textSize", async () => {
+  useSongPreferencesStore.setState({ textSize: 3 });
+  render(<SongCard song={makeSong({ chords: [], schemes: [] })} />);
+  await userEvent.click(screen.getByRole("button", { name: /increase/i }));
+  expect(useSongPreferencesStore.getState().textSize).toBe(4);
 });
