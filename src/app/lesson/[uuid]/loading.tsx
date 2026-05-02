@@ -6,12 +6,14 @@
 
 import { LessonHeaderSkeleton } from "@/features/lessons/components/lesson-header-skeleton";
 import { LessonVideoSkeleton } from "@/features/lessons/components/lesson-video-skeleton";
+import { SongsSectionSkeleton } from "@/features/lessons/components/songs-section-skeleton";
 
 export default function LessonLoading() {
   return (
     <>
       <LessonHeaderSkeleton />
       <LessonVideoSkeleton />
+      <SongsSectionSkeleton />
     </>
   );
 }
