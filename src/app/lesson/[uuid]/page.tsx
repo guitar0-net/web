@@ -9,7 +9,8 @@ import { notFound } from "next/navigation";
 
 import { lessonsApi } from "@/features/lessons";
 import { LessonHeader } from "@/features/lessons/components/lesson-header";
-import { LessonVideo } from "@/features/lessons/components/lesson-video";
+import { LessonVideoSection } from "@/features/lessons/components/lesson-video-section";
+import { SongsSection } from "@/features/lessons/components/songs-section";
 import { NotFoundError } from "@/lib/api";
 
 interface Props {
@@ -42,7 +43,8 @@ export default async function LessonPage({ params }: Props) {
   return (
     <>
       <LessonHeader title={lesson.title} description={lesson.description} />
-      <LessonVideo videoUrl={lesson.video_url} />
+      <LessonVideoSection videoUrl={lesson.video_url} />
+      <SongsSection songs={lesson.songs} />
     </>
   );
 }
