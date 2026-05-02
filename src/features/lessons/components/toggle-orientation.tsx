@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { HiDotsHorizontal, HiDotsVertical } from "react-icons/hi";
+import { RotateCcw, RotateCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -20,7 +20,7 @@ export function ToggleOrientation({ orientation, onToggle }: ToggleOrientationPr
       aria-label="toggle orientation"
       className="text-muted-foreground"
     >
-      {orientation === "horizontal" ? <HiDotsHorizontal /> : <HiDotsVertical />}
+      {orientation === "horizontal" ? <RotateCcw /> : <RotateCw />}
     </Button>
   );
 }
