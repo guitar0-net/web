@@ -40,7 +40,7 @@ export default async function CoursePage({ params }: Props) {
     <>
       <CourseHeader course={course} />
       <main className="container mx-auto px-4 py-8">
-        <LessonList lessons={course.lessons} />
+        <LessonList lessons={course.lessons} courseId={course.uuid} />
       </main>
     </>
   );
