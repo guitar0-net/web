@@ -19,7 +19,7 @@ export function CourseMenuItemLink({ course }: Props) {
   return (
     <NavigationMenuLink asChild>
       <Link
-        href={`/course/${course.uuid}`}
+        href={`/courses/${course.uuid}`}
         className="hover:bg-accent flex items-center gap-3 rounded-md p-3"
       >
         <div className="min-w-0 flex-1">

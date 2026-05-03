@@ -30,29 +30,30 @@ function makeLessonEntry(
 it("renders the order number", () => {
   const order = Math.floor(Math.random() * 50) + 1;
   const entry = makeLessonEntry({ order });
-  render(<LessonCard lesson={entry} />);
-  expect(screen.getByText(String(order - 1))).toBeInTheDocument();
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
+  expect(screen.getByText(String(order))).toBeInTheDocument();
 });
 
 it("renders a link to the lesson page with the lesson title", () => {
+  const courseId = crypto.randomUUID();
   const entry = makeLessonEntry();
-  render(<LessonCard lesson={entry} />);
+  render(<LessonCard lesson={entry} courseId={courseId} />);
   expect(screen.getByRole("link", { name: entry.lesson.title })).toHaveAttribute(
     "href",
-    `/lesson/${entry.lesson.uuid}`,
+    `/lessons/${entry.lesson.uuid}?course=${courseId}`,
   );
 });
 
 it("renders description when present", () => {
   const description = `Описание-${Math.random().toString(36).slice(2)}`;
   const entry = makeLessonEntry({ lesson: { description } });
-  render(<LessonCard lesson={entry} />);
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
   expect(screen.getByText(description)).toBeInTheDocument();
 });
 
 it("does not render description element when absent", () => {
   const entry = makeLessonEntry({ lesson: { description: undefined } });
-  render(<LessonCard lesson={entry} />);
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
   expect(screen.queryByTestId("lesson-description")).not.toBeInTheDocument();
 });
 
@@ -68,7 +69,7 @@ it("renders each song title as a badge", () => {
     },
   ];
   const entry = makeLessonEntry({ lesson: { songs } });
-  render(<LessonCard lesson={entry} />);
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
   for (const song of songs) {
     expect(screen.getByText(song.title)).toBeInTheDocument();
   }

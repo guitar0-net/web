@@ -12,16 +12,17 @@ import type { CourseLessonDetail } from "../api";
 
 interface LessonCardProps {
   lesson: CourseLessonDetail;
+  courseId: string;
 }
 
-export function LessonCard({ lesson: { order, lesson } }: LessonCardProps) {
+export function LessonCard({ lesson: { order, lesson }, courseId }: LessonCardProps) {
   return (
     <div className="flex items-start gap-4">
       <Card className="flex-1 transition-all hover:-translate-y-1 hover:shadow-lg">
         <CardContent className="flex gap-4">
           <div className="flex flex-col items-center gap-2">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm font-medium">
-              {order - 1}
+              {order}
             </div>
             <div className="border-muted h-8 border-r-2"></div>
           </div>
@@ -31,7 +32,7 @@ export function LessonCard({ lesson: { order, lesson } }: LessonCardProps) {
               <span className="text-muted-foreground text-xs">12:34</span>
             </div>
             <Link
-              href={`/lesson/${lesson.uuid}`}
+              href={`/lessons/${lesson.uuid}?course=${courseId}`}
               className="hover:text-primary text-xl font-medium"
             >
               {lesson.title}
