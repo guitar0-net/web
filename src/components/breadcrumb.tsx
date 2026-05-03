@@ -38,7 +38,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           const isLast = i === items.length - 1;
 
           return (
-            <React.Fragment key={i}>
+            <React.Fragment key={item.href ?? item.title}>
               <BreadcrumbItem>
                 {item.href && !isLast ? (
                   <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
