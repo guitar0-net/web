@@ -40,7 +40,7 @@ it("renders a link to the lesson page with the lesson title", () => {
   render(<LessonCard lesson={entry} courseId={courseId} />);
   expect(screen.getByRole("link", { name: entry.lesson.title })).toHaveAttribute(
     "href",
-    `/lesson/${entry.lesson.uuid}?course=${courseId}`,
+    `/lessons/${entry.lesson.uuid}?course=${courseId}`,
   );
 });
 

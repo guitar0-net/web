@@ -26,7 +26,7 @@ it("renders a link to the course page when course info is provided", () => {
   );
   expect(screen.getByRole("link", { name: courseTitle })).toHaveAttribute(
     "href",
-    `/course/${courseUuid}`,
+    `/courses/${courseUuid}`,
   );
 });
 
@@ -35,5 +35,5 @@ it("does not render a course link when course title is absent", () => {
   const { container } = render(
     <LessonBreadcrumbs lessonTitle="Урок" courseUuid={courseUuid} />,
   );
-  expect(container.querySelector(`a[href="/course/${courseUuid}"]`)).toBeNull();
+  expect(container.querySelector(`a[href="/courses/${courseUuid}"]`)).toBeNull();
 });

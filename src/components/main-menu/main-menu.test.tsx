@@ -30,7 +30,7 @@ describe("MainMenu", () => {
     await userEvent.click(screen.getByRole("button", { name: "Курсы" }));
     expect(screen.getByRole("link", { name: new RegExp(title) })).toHaveAttribute(
       "href",
-      `/course/${uuid}`,
+      `/courses/${uuid}`,
     );
   });
 

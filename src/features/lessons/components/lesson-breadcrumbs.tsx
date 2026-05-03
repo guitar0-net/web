@@ -17,7 +17,7 @@ export function LessonBreadcrumbs({
 }: LessonBreadcrumbsProps) {
   const items = [];
   if (courseTitle) {
-    items.push({ title: courseTitle, href: `/course/${courseUuid}` });
+    items.push({ title: courseTitle, href: `/courses/${courseUuid}` });
   }
   items.push({ title: lessonTitle });
 

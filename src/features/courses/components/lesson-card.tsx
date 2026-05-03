@@ -32,7 +32,7 @@ export function LessonCard({ lesson: { order, lesson }, courseId }: LessonCardPr
               <span className="text-muted-foreground text-xs">12:34</span>
             </div>
             <Link
-              href={`/lesson/${lesson.uuid}?course=${courseId}`}
+              href={`/lessons/${lesson.uuid}?course=${courseId}`}
               className="hover:text-primary text-xl font-medium"
             >
               {lesson.title}
