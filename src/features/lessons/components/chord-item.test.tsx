@@ -37,12 +37,12 @@ it("applies vertical width based on size", () => {
   const { container } = render(
     <ChordItem title="Am" svg="<svg><rect/></svg>" size={1} orientation="vertical" />,
   );
-  expect((container.firstChild as HTMLElement).style.width).toBe("5rem");
+  expect((container.firstChild as HTMLElement).style.width).toBe("7rem");
 });
 
 it("applies horizontal width based on size", () => {
   const { container } = render(
     <ChordItem title="Am" svg="<svg><rect/></svg>" size={1} orientation="horizontal" />,
   );
-  expect((container.firstChild as HTMLElement).style.width).toBe("10rem");
+  expect((container.firstChild as HTMLElement).style.width).toBe("12rem");
 });
