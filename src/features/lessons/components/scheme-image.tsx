@@ -24,6 +24,7 @@ export function SchemeImage({ scheme, size }: SchemeImageProps) {
       <Image
         src={scheme.image}
         alt={scheme.inscription ?? "Схема аккорда"}
+        loading="eager"
         width={Math.round((width * size) / 3)}
         height={Math.round((height * size) / 3)}
         className="transition-all"
