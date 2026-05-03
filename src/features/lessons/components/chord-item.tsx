@@ -8,18 +8,18 @@ export type ChordOrientation = "horizontal" | "vertical";
 
 const CHORD_WIDTH: Record<ChordOrientation, Record<Size, string>> = {
   vertical: {
-    1: "5rem",
-    2: "6rem",
-    3: "7rem",
-    4: "8rem",
-    5: "10rem",
+    1: "7rem",
+    2: "8rem",
+    3: "9rem",
+    4: "10rem",
+    5: "12rem",
   },
   horizontal: {
-    1: "10rem",
-    2: "14rem",
-    3: "18rem",
-    4: "24rem",
-    5: "28rem",
+    1: "12rem",
+    2: "17rem",
+    3: "22rem",
+    4: "26rem",
+    5: "32rem",
   },
 };
 
@@ -33,7 +33,7 @@ interface ChordItemProps {
 export function ChordItem({ title, svg, size, orientation }: ChordItemProps) {
   return (
     <div
-      className="flex flex-col items-center transition-all"
+      className="flex flex-col items-center"
       style={{ width: CHORD_WIDTH[orientation][size] }}
     >
       <span className="text-sm font-medium">{title}</span>
