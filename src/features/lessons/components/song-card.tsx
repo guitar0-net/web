@@ -6,9 +6,10 @@
 
 import { Music3 } from "lucide-react";
 
+import { ChordsSection } from "@/features/chords";
+
 import type { SongDetail } from "../api";
 import { useSongPreferencesStore } from "../store";
-import { ChordsSection } from "./chords-section";
 import { SchemesSection } from "./schemes-section";
 import { TextSection } from "./text-section";
 
