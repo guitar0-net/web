@@ -7,10 +7,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import type { ChordDetail } from "../api";
+import type { ChordsListItem } from "../api";
 import { ChordsSection } from "./chords-section";
 
-function makeChord(overrides: Partial<ChordDetail> = {}): ChordDetail {
+function makeChord(overrides: Partial<ChordsListItem> = {}): ChordsListItem {
   return {
     id: Math.floor(Math.random() * 1000),
     title: `Am-${Math.random().toString(36).slice(2)}`,
@@ -213,4 +213,36 @@ it("hides chord items when visible is false", () => {
     />,
   );
   expect(screen.queryByText(chord.title)).not.toBeInTheDocument();
+});
+
+it("does not render visibility toggle button when onVisibleToggle is absent", () => {
+  render(
+    <ChordsSection
+      chords={[makeChord()]}
+      size={3}
+      orientation="vertical"
+      visible={true}
+      onOrientationToggle={() => {}}
+      onSizeDecrease={() => {}}
+      onSizeIncrease={() => {}}
+    />,
+  );
+  expect(screen.queryByRole("button", { name: /hide|show/i })).not.toBeInTheDocument();
+});
+
+it("renders the provided title as a section heading", () => {
+  const title = `Нота-${Math.random().toString(36).slice(2)}`;
+  render(
+    <ChordsSection
+      chords={[]}
+      size={3}
+      orientation="vertical"
+      visible={true}
+      title={title}
+      onOrientationToggle={() => {}}
+      onSizeDecrease={() => {}}
+      onSizeIncrease={() => {}}
+    />,
+  );
+  expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
 });

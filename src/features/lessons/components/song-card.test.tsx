@@ -7,8 +7,9 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { useSongPreferencesStore } from "@/lib/song-preferences-store";
+
 import type { SongDetail } from "../api";
-import { useSongPreferencesStore } from "../store";
 import { SongCard } from "./song-card";
 
 function makeSong(overrides: Partial<SongDetail> = {}): SongDetail {

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { createSongPreferencesStore } from "./store";
+import { createSongPreferencesStore } from "./song-preferences-store";
 
 vi.stubGlobal("window", {
   localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
