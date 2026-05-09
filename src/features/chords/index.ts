@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export { ChordsList } from "./components/chords-notes";
+export { ChordsList } from "./components/chords-list";
 export { ChordsSection } from "./components/chords-section";
-export type { ChordDetail } from "./api";
+export type { ChordDetail, ChordsListItem } from "./api";
 export type { ChordOrientation } from "./components/chord-item";
