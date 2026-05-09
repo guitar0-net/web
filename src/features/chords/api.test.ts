@@ -13,7 +13,7 @@ function makeChordsApi(baseUrl: string) {
   return {
     fetchChords: async (): Promise<ChordsListItem[]> => {
       const result = await client.get("/api/v1/chords/", {
-        params: { query: { limit: 1000 } },
+        params: { query: { limit: 200 } },
       });
       return result.results;
     },
