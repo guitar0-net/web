@@ -4,9 +4,7 @@
 
 "use client";
 
-import { useEffect } from "react";
-
-import { useSongPreferencesStore } from "@/features/lessons/store";
+import { useSongPreferencesStore } from "@/lib/song-preferences-store";
 
 import type { ChordsListItem } from "../api";
 import { ChordsSection } from "./chords-section";
@@ -18,10 +16,6 @@ interface ChordsListProps {
 }
 
 export function ChordsList({ chords }: ChordsListProps) {
-  useEffect(() => {
-    void useSongPreferencesStore.persist.rehydrate();
-  }, []);
-
   const {
     chordSize,
     chordOrientation,

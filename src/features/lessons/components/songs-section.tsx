@@ -4,12 +4,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useEffect } from "react";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import type { SongDetail } from "../api";
-import { useSongPreferencesStore } from "../store";
 import { SongCard } from "./song-card";
 
 interface SongsSectionProps {
@@ -17,10 +14,6 @@ interface SongsSectionProps {
 }
 
 export function SongsSection({ songs }: SongsSectionProps) {
-  useEffect(() => {
-    void useSongPreferencesStore.persist.rehydrate();
-  }, []);
-
   if (songs.length === 0) return null;
 
   return (

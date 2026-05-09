@@ -7,9 +7,9 @@
 import { Music3 } from "lucide-react";
 
 import { ChordsSection } from "@/features/chords";
+import { useSongPreferencesStore } from "@/lib/song-preferences-store";
 
 import type { SongDetail } from "../api";
-import { useSongPreferencesStore } from "../store";
 import { SchemesSection } from "./schemes-section";
 import { TextSection } from "./text-section";
 
