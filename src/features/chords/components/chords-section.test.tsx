@@ -7,10 +7,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import type { ChordDetail } from "../api";
+import type { ChordsListItem } from "../api";
 import { ChordsSection } from "./chords-section";
 
-function makeChord(overrides: Partial<ChordDetail> = {}): ChordDetail {
+function makeChord(overrides: Partial<ChordsListItem> = {}): ChordsListItem {
   return {
     id: Math.floor(Math.random() * 1000),
     title: `Am-${Math.random().toString(36).slice(2)}`,

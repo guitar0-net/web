@@ -10,19 +10,20 @@ import { ToggleVisibility } from "@/components/controls/toggle-visibility";
 import { SectionHeader } from "@/components/section-header";
 import { Size } from "@/types/ui";
 
-import type { ChordDetail } from "../api";
+import type { ChordsListItem } from "../api";
 import { ChordItem, type ChordOrientation } from "./chord-item";
 import { ToggleOrientation } from "./toggle-orientation";
 
 interface ChordsSectionProps {
-  chords: ChordDetail[];
+  chords: ChordsListItem[];
   size: Size;
   orientation: ChordOrientation;
   visible: boolean;
+  title?: string;
   onOrientationToggle: () => void;
   onSizeDecrease: () => void;
   onSizeIncrease: () => void;
-  onVisibleToggle: () => void;
+  onVisibleToggle?: () => void;
 }
 
 export function ChordsSection({
@@ -30,6 +31,7 @@ export function ChordsSection({
   size,
   orientation,
   visible,
+  title,
   onSizeDecrease,
   onSizeIncrease,
   onOrientationToggle,
@@ -47,12 +49,18 @@ export function ChordsSection({
           />
         </>
       )}
-      <ToggleVisibility visible={visible} onToggle={onVisibleToggle} />
+      {onVisibleToggle && (
+        <ToggleVisibility visible={visible} onToggle={onVisibleToggle} />
+      )}
     </ControlGroup>
   );
   return (
     <section>
-      <SectionHeader title="Аккорды" Icon={Music} ControlGroup={ChordControlGroup} />
+      <SectionHeader
+        title={title ?? "Аккорды"}
+        Icon={Music}
+        ControlGroup={ChordControlGroup}
+      />
       {visible && (
         <div className="flex flex-wrap gap-4">
           {chords.map((chord) => {
