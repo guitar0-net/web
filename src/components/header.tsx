@@ -12,7 +12,7 @@ import { MainMenuServer } from "./main-menu";
 export function Header() {
   return (
     <header className="bg-background/80 sticky top-0 z-20 w-full border-b backdrop-blur-md">
-      <div className="container mx-auto grid grid-cols-3 items-center">
+      <div className="container mx-auto grid grid-cols-3 items-center p-1">
         <Link href={"/"}>
           <Logo />
         </Link>
