@@ -57,6 +57,24 @@ it("does not render description element when absent", () => {
   expect(screen.queryByTestId("lesson-description")).not.toBeInTheDocument();
 });
 
+it("renders formatted duration when present", () => {
+  const entry = makeLessonEntry({ lesson: { duration: 125 } });
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
+  expect(screen.getByText("2:05")).toBeInTheDocument();
+});
+
+it("does not render duration when absent", () => {
+  const entry = makeLessonEntry({ lesson: { duration: undefined } });
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
+  expect(screen.queryByText(/^\d+:\d{2}/)).not.toBeInTheDocument();
+});
+
+it("does not render duration when zero", () => {
+  const entry = makeLessonEntry({ lesson: { duration: 0 } });
+  render(<LessonCard lesson={entry} courseId={crypto.randomUUID()} />);
+  expect(screen.queryByText("0:00")).not.toBeInTheDocument();
+});
+
 it("renders each song title as a badge", () => {
   const songs = [
     {
