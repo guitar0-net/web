@@ -8,7 +8,8 @@ import { cacheLife } from "next/cache";
 
 import { coursesApi } from "@/features/courses";
 
-import { MainMenu, type CourseMenuItem } from "./main-menu";
+import { MainMenuInline } from "./main-menu-inline";
+import { type CourseMenuItem } from "./types";
 
 export async function MainMenuServer() {
   "use cache";
@@ -19,5 +20,5 @@ export async function MainMenuServer() {
   } catch (error) {
     console.error("[MainMenuServer] Failed to fetch courses:", error);
   }
-  return <MainMenu courses={courses} />;
+  return <MainMenuInline courses={courses} />;
 }

@@ -20,6 +20,8 @@ export default defineConfig({
     baseURL: `http://localhost:${APP_PORT}`,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
+    navigationTimeout: 60_000,
+    actionTimeout: 30_000,
   },
   projects: [
     {

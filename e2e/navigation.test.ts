@@ -11,7 +11,6 @@ test("user navigates from home to a course and then to a lesson", async ({
   const firstLesson = firstCourse.lessons[0].lesson;
 
   await page.goto("/");
-  await page.getByRole("button", { name: "Курсы" }).hover();
   await page.getByRole("link", { name: firstCourse.title }).first().click();
 
   await expect(page).toHaveURL(new RegExp(`/courses/${firstCourse.uuid}`));

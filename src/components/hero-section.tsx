@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
-    <section className="flex flex-col items-center justify-center py-16 md:py-24">
-      <div className="container px-4">
+    <section className="bg-brand relative flex flex-col items-center justify-center py-16 md:py-24">
+      <div className="from-background absolute inset-x-0 bottom-0 h-48 bg-linear-to-t to-transparent" />
+      <div className="relative z-10 container px-4">
         <h1 className="mb-4 flex flex-col items-start text-5xl font-bold tracking-tight md:text-7xl">
           <span className="block md:inline">Научись</span>{" "}
           <span className="text-primary">играть на гитаре</span>
