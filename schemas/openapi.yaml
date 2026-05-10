@@ -567,6 +567,12 @@ components:
           title: Видео
           description: Ссылка на видео урока
           maxLength: 200
+        duration:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Длительность (сек)
+          description: Общая длительность урока в секундах
         songs:
           type: array
           items:

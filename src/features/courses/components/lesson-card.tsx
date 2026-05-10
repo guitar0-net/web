@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { secToMin } from "@/lib/utils";
 
 import type { CourseLessonDetail } from "../api";
 
@@ -27,10 +28,14 @@ export function LessonCard({ lesson: { order, lesson }, courseId }: LessonCardPr
             <div className="border-muted h-8 border-r-2"></div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <Clock className="text-muted-foreground h-3 w-3" />
-              <span className="text-muted-foreground text-xs">12:34</span>
-            </div>
+            {!!lesson.duration && (
+              <div className="flex items-center gap-2">
+                <Clock className="text-muted-foreground h-3 w-3" />
+                <span className="text-muted-foreground text-xs">
+                  {secToMin(lesson.duration)}
+                </span>
+              </div>
+            )}
             <Link
               href={`/lessons/${lesson.uuid}?course=${courseId}`}
               className="hover:text-primary text-xl font-medium"
