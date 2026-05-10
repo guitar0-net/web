@@ -59,7 +59,7 @@ export function LessonVideo({
     <section
       className={cn(
         "container mx-auto px-4",
-        pinned && "bg-background sticky top-11 z-10 md:top-13",
+        pinned && "bg-background sticky top-13 z-10 md:top-15",
       )}
     >
       <SectionHeader title="Видео" Icon={Play} ControlGroup={VideoControlGroup} />
