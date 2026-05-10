@@ -328,6 +328,11 @@ export interface components {
        * @description Ссылка на видео урока
        */
       video_url: string;
+      /**
+       * Длительность (сек)
+       * @description Общая длительность урока в секундах
+       */
+      duration?: number;
       readonly songs: components["schemas"]["SongList"][];
     };
     PaginatedAnnouncementsListList: {
