@@ -18,3 +18,15 @@ export function pluralizeRu(
   if (mod10 >= 2 && mod10 <= 4) return few;
   return many;
 }
+
+export function secToMin(s: number): string {
+  const hours = Math.floor(s / 3600);
+  const minutes = Math.floor((s % 3600) / 60);
+  const seconds = Math.floor(s % 60);
+  const paddedSeconds = String(seconds).padStart(2, "0");
+  const paddedMinutes = String(minutes).padStart(2, "0");
+  if (hours > 0) {
+    return `${hours}:${paddedMinutes}:${paddedSeconds}`;
+  }
+  return `${minutes}:${paddedSeconds}`;
+}
