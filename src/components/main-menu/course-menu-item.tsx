@@ -9,7 +9,7 @@ import Link from "next/link";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { pluralizeRu } from "@/lib/utils";
 
-import { type CourseMenuItem } from "./main-menu";
+import { type CourseMenuItem } from "./types";
 
 type Props = {
   course: CourseMenuItem;

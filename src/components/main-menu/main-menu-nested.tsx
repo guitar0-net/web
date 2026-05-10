@@ -18,13 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { CourseMenuItemLink } from "./course-menu-item";
-
-export type CourseMenuItem = {
-  uuid: string;
-  title: string;
-  description?: string;
-  lessons_count: number;
-};
+import { type CourseMenuItem } from "./types";
 
 type Props = {
   courses: CourseMenuItem[] | null;
@@ -33,9 +27,9 @@ type Props = {
 export function MainMenu({ courses }: Props) {
   return (
     <NavigationMenu className="text-primary">
-      <NavigationMenuList>
+      <NavigationMenuList className="gap-2">
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-graffiti text-2xl">
+          <NavigationMenuTrigger className="font-graffiti text-xl md:text-2xl">
             Курсы
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -56,7 +50,10 @@ export function MainMenu({ courses }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink
-            className={cn(navigationMenuTriggerStyle(), "font-graffiti text-2xl")}
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "font-graffiti text-xl md:text-2xl",
+            )}
             asChild
           >
             <Link href="/chords">Аккорды</Link>
