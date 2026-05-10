@@ -41,6 +41,12 @@ it("does not render metronome badge when metronome is absent", () => {
   expect(screen.queryByTestId("metronome-badge")).not.toBeInTheDocument();
 });
 
+it("does not render metronome badge when metronome is zero", () => {
+  const song = makeSong({ metronome: 0 });
+  render(<SongCard song={song} />);
+  expect(screen.queryByTestId("metronome-badge")).not.toBeInTheDocument();
+});
+
 it("renders schemes section when schemes are present", () => {
   const song = makeSong({
     schemes: [{ id: 1, image: "https://example.com/a.png" }],

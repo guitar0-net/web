@@ -35,7 +35,7 @@ export function SongCard({ song }: SongCardProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-2xl font-semibold">{song.title}</h2>
-        {song.metronome !== undefined && (
+        {song.metronome !== undefined && song.metronome > 0 && (
           <div
             data-testid="metronome-badge"
             className="bg-primary/10 flex items-center gap-2 rounded-l-2xl rounded-r-2xl p-2 px-4"
