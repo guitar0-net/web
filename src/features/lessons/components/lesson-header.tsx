@@ -9,7 +9,7 @@ interface LessonHeaderProps {
 
 export function LessonHeader({ title, description }: LessonHeaderProps) {
   return (
-    <div className="bg-accent mb-2">
+    <div className="bg-accent">
       <div className="container mx-auto px-2 py-8">
         <div className="mb-4 flex items-center gap-2">
           <div className="border-primary w-10 border-t"></div>

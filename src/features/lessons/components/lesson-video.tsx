@@ -56,26 +56,23 @@ export function LessonVideo({
     </ControlGroup>
   );
   return (
-    <section
-      className={cn(
-        "container mx-auto px-4",
-        pinned && "bg-background sticky top-13 z-10 md:top-15",
-      )}
-    >
-      <SectionHeader title="Видео" Icon={Play} ControlGroup={VideoControlGroup} />
-      {visible && (
-        <div
-          className="mx-auto aspect-video transition-all"
-          style={{ maxWidth: VIDEO_MAX_WIDTH[size] }}
-        >
-          <iframe
-            src={videoUrl}
-            title="Lesson video"
-            className="h-full w-full"
-            allowFullScreen
-          />
-        </div>
-      )}
-    </section>
+    <div className={cn("bg-brand pt-2", pinned && "sticky top-13 z-10 md:top-15")}>
+      <section className="container mx-auto px-4">
+        <SectionHeader title="Видео" Icon={Play} ControlGroup={VideoControlGroup} />
+        {visible && (
+          <div
+            className="mx-auto aspect-video transition-all"
+            style={{ maxWidth: VIDEO_MAX_WIDTH[size] }}
+          >
+            <iframe
+              src={videoUrl}
+              title="Lesson video"
+              className="h-full w-full"
+              allowFullScreen
+            />
+          </div>
+        )}
+      </section>
+    </div>
   );
 }
