@@ -5,6 +5,7 @@
 /* v8 ignore file */
 
 import type { Metadata } from "next";
+import { connection } from "next/server";
 
 import { coursesApi, CoursesList } from "@/features/courses";
 
@@ -13,6 +14,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default async function CoursesPage() {
+  await connection();
   const data = await coursesApi.fetchCourses();
   return (
     <section>
