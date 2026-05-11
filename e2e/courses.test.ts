@@ -4,10 +4,14 @@
 
 import { expect, test } from "./fixtures";
 
-// Courses page is not implemented yet.
-test.skip("courses page shows courses from the API", async ({ page, firstCourse }) => {
-  await page.goto("/courses");
-  await expect(
-    page.getByRole("link", { name: firstCourse.title }).first(),
-  ).toBeVisible();
+test("navigates from home to courses to course detail", async ({
+  page,
+  firstCourse,
+}) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Начать обучение" }).click();
+  await expect(page).toHaveURL("/courses");
+  await page.getByRole("link", { name: firstCourse.title }).first().click();
+  await expect(page).toHaveURL(`/courses/${firstCourse.uuid}`);
+  await expect(page.getByRole("heading", { name: firstCourse.title })).toBeVisible();
 });

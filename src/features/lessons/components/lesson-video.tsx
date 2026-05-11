@@ -56,7 +56,7 @@ export function LessonVideo({
     </ControlGroup>
   );
   return (
-    <div className={cn("bg-brand pt-2", pinned && "sticky top-13 z-10 md:top-15")}>
+    <div className={cn("pt-2", pinned && "sticky top-13 z-10 md:top-15")}>
       <section className="container mx-auto px-4">
         <SectionHeader title="Видео" Icon={Play} ControlGroup={VideoControlGroup} />
         {visible && (
