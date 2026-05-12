@@ -176,6 +176,8 @@ export interface components {
       /** Заголовок */
       title: string;
       slug: string;
+      /** Содержание */
+      content: string;
       /**
        * Версия продукта
        * @description Например: 1.2.0
