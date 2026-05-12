@@ -69,6 +69,20 @@ it("shows short content in full without ellipsis", () => {
   expect(screen.getByText(content)).toBeInTheDocument();
 });
 
+it("truncates long content at the last word boundary when no paragraph break exists", () => {
+  const prefix = "слово ".repeat(25); // 150+ chars, no double newline
+  const suffix = "хвост".repeat(5);
+  const announcement = {
+    uuid: crypto.randomUUID(),
+    title: `Анонс-${Math.random().toString(36).slice(2)}`,
+    slug: "anons",
+    content: `${prefix}${suffix}`,
+  };
+  render(<AnnouncementCard announcement={announcement} />);
+  const preview = prefix.slice(0, 150).slice(0, prefix.slice(0, 150).lastIndexOf(" "));
+  expect(screen.getByText(`${preview}...`)).toBeInTheDocument();
+});
+
 it("truncates long content at the last paragraph boundary and appends ellipsis", () => {
   const firstParagraph = "а".repeat(100);
   const secondParagraph = "б".repeat(100);
@@ -93,6 +107,20 @@ it("opens a dialog when the card is clicked", async () => {
   render(<AnnouncementCard announcement={announcement} />);
   await user.click(screen.getByText(announcement.title));
   expect(screen.getByRole("dialog")).toBeInTheDocument();
+});
+
+it("shows the publication date inside the dialog when published_at is provided", async () => {
+  const user = userEvent.setup();
+  const announcement = {
+    uuid: crypto.randomUUID(),
+    title: `Анонс-${Math.random().toString(36).slice(2)}`,
+    slug: "anons",
+    content: "контент",
+    published_at: "2026-07-20T08:00:00Z",
+  };
+  render(<AnnouncementCard announcement={announcement} />);
+  await user.click(screen.getByText(announcement.title));
+  expect(screen.getByRole("dialog")).toContainElement(screen.getAllByRole("time")[0]);
 });
 
 it("shows the full untruncated content in the dialog", async () => {

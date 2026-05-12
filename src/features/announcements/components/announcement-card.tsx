@@ -68,9 +68,9 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
             <h3 className="mb-2 text-base leading-snug font-medium">
               {announcement.title}
             </h3>
-            {publishedDate && (
+            {announcement.published_at && (
               <p className="text-muted-foreground">
-                <time dateTime={announcement.published_at ?? ""}>{publishedDate}</time>
+                <time dateTime={announcement.published_at}>{publishedDate}</time>
               </p>
             )}
             {announcement.content && (
@@ -89,9 +89,9 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
               <Badge variant="secondary">{announcement.product_version}</Badge>
             )}
           </div>
-          {publishedDate && (
+          {announcement.published_at && (
             <DialogDescription>
-              <time dateTime={announcement.published_at ?? ""}>{publishedDate}</time>
+              <time dateTime={announcement.published_at}>{publishedDate}</time>
             </DialogDescription>
           )}
         </DialogHeader>
