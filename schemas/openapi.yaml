@@ -276,6 +276,9 @@ components:
           type: string
           maxLength: 200
           pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          title: Содержание
         product_version:
           type: string
           title: Версия продукта
@@ -287,6 +290,7 @@ components:
           nullable: true
           title: Дата-время публикации
       required:
+      - content
       - slug
       - title
       - uuid
