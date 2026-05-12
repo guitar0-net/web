@@ -82,6 +82,7 @@ it("fetchAnnouncements returns paginated list on 200", async () => {
       uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       title: "Новый релиз",
       slug: "novyj-reliz",
+      content: "",
     },
   ];
   const body: PaginatedAnnouncementsList = { count: items.length, results: items };

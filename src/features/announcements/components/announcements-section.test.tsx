@@ -34,6 +34,7 @@ it("renders announcement cards from API data", async () => {
     uuid: crypto.randomUUID(),
     title: `Анонс-${i}-${Math.random().toString(36).slice(2)}`,
     slug: `anons-${i}`,
+    content: "",
   }));
   vi.mocked(announcementsApi.fetchAnnouncements).mockResolvedValueOnce({
     count: results.length,
