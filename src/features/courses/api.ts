@@ -4,8 +4,6 @@
 
 /* v8 ignore file */
 
-import { cacheLife } from "next/cache";
-
 import { apiClient } from "@/lib/api";
 import { components } from "@/types/api";
 
@@ -22,9 +20,6 @@ export const coursesApi = {
   }): Promise<PaginatedCoursesList> =>
     apiClient.get("/api/v1/courses/", { params: { query: params } }),
 
-  fetchCourse: async (uuid: string): Promise<CourseDetail> => {
-    "use cache";
-    cacheLife("days");
-    return apiClient.get("/api/v1/courses/{uuid}/", { params: { path: { uuid } } });
-  },
+  fetchCourse: async (uuid: string): Promise<CourseDetail> =>
+    apiClient.get("/api/v1/courses/{uuid}/", { params: { path: { uuid } } }),
 };
