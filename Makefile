@@ -34,9 +34,6 @@ typecheck: ## Run TypeScript type check
 test: ## Run tests
 	npm run test
 
-install_e2e: ## Install dependencies for end-to-end tests
-	pip install -r requirements.txt
-
 ci: lint format typecheck test ## Run all checks (lint, format, typecheck, test)
 
 loc: ## Count lines of code vs tests
