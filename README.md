@@ -8,4 +8,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 [![codecov](https://codecov.io/gh/guitar0-net/web/graph/badge.svg?token=eXFhL1tyvs)](https://codecov.io/gh/guitar0-net/web)
 ![Active Development](https://img.shields.io/badge/status-active_development-yellow)
-![](https://img.shields.io/badge/e2e-passing-green)
+![e2e](https://img.shields.io/badge/e2e-passing-green)
