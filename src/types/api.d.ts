@@ -176,6 +176,8 @@ export interface components {
       /** Заголовок */
       title: string;
       slug: string;
+      /** Содержание */
+      content: string;
       /**
        * Версия продукта
        * @description Например: 1.2.0
@@ -328,6 +330,11 @@ export interface components {
        * @description Ссылка на видео урока
        */
       video_url: string;
+      /**
+       * Длительность (сек)
+       * @description Общая длительность урока в секундах
+       */
+      duration?: number;
       readonly songs: components["schemas"]["SongList"][];
     };
     PaginatedAnnouncementsListList: {

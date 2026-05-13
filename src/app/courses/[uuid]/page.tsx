@@ -21,8 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const course = await coursesApi.fetchCourse(uuid);
     return { title: course.title };
-  } catch {
-    return {};
+  } catch (err) {
+    if (err instanceof NotFoundError) return {};
+    throw err;
   }
 }
 
@@ -39,7 +40,7 @@ export default async function CoursePage({ params }: Props) {
     <>
       <CourseHeader course={course} />
       <main className="container mx-auto px-4 py-8">
-        <LessonList lessons={course.lessons} />
+        <LessonList lessons={course.lessons} courseId={course.uuid} />
       </main>
     </>
   );

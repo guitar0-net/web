@@ -24,13 +24,13 @@ function makeLessonEntry(order: number): CourseLessonDetail {
 it("renders a card for each lesson", () => {
   const count = Math.floor(Math.random() * 4) + 2;
   const lessons = Array.from({ length: count }, (_, i) => makeLessonEntry(i + 1));
-  render(<LessonList lessons={lessons} />);
+  render(<LessonList lessons={lessons} courseId={crypto.randomUUID()} />);
   expect(screen.getAllByRole("listitem")).toHaveLength(count);
 });
 
 it("preserves the order in which lessons are provided", () => {
   const lessons = [makeLessonEntry(3), makeLessonEntry(1), makeLessonEntry(2)];
-  render(<LessonList lessons={lessons} />);
+  render(<LessonList lessons={lessons} courseId={crypto.randomUUID()} />);
   const items = screen.getAllByRole("listitem");
   expect(items[0]).toHaveTextContent(lessons[0].lesson.title);
   expect(items[1]).toHaveTextContent(lessons[1].lesson.title);

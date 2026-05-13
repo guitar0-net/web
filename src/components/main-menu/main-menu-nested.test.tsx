@@ -7,7 +7,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { MainMenu } from "./main-menu";
+import { MainMenu } from "./main-menu-nested";
 
 describe("MainMenu", () => {
   it("renders a course title as a link after opening the dropdown", async () => {
@@ -30,7 +30,7 @@ describe("MainMenu", () => {
     await userEvent.click(screen.getByRole("button", { name: "Курсы" }));
     expect(screen.getByRole("link", { name: new RegExp(title) })).toHaveAttribute(
       "href",
-      `/course/${uuid}`,
+      `/courses/${uuid}`,
     );
   });
 

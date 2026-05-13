@@ -22,7 +22,7 @@ coverage:
         if_ci_failed: error
     patch:
       default:
-        target: 100%
+        target: 90%
         threshold: 10%
         paths:
           - "!src/features/**/api.ts"

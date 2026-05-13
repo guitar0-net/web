@@ -11,6 +11,7 @@ import type { ReactNode } from "react";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { SongPreferencesHydrator } from "@/components/song-preferences-hydrator";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -44,6 +45,7 @@ export default async function RootLayout({ children }: Readonly<Props>) {
     >
       <body className="flex min-h-screen flex-col antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SongPreferencesHydrator />
           <Header />
           <div className="flex flex-1 flex-col">{children}</div>
           <Footer />

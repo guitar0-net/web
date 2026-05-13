@@ -7,6 +7,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   cacheComponents: true,
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "**.guitar0.net" }],
+  },
 };
 
 export default nextConfig;

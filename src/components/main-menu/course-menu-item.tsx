@@ -9,7 +9,7 @@ import Link from "next/link";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { pluralizeRu } from "@/lib/utils";
 
-import { type CourseMenuItem } from "./main-menu";
+import { type CourseMenuItem } from "./types";
 
 type Props = {
   course: CourseMenuItem;
@@ -19,7 +19,7 @@ export function CourseMenuItemLink({ course }: Props) {
   return (
     <NavigationMenuLink asChild>
       <Link
-        href={`/course/${course.uuid}`}
+        href={`/courses/${course.uuid}`}
         className="hover:bg-accent flex items-center gap-3 rounded-md p-3"
       >
         <div className="min-w-0 flex-1">

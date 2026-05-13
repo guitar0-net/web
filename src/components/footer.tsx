@@ -87,9 +87,7 @@ export async function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-col items-end self-end">
-            <ThemeSwitcher />
-          </div>
+          <ThemeSwitcher />
         </div>
         <Separator className="my-4" />
         <div className="flex justify-between">

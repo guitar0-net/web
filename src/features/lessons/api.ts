@@ -8,6 +8,8 @@ import { apiClient } from "@/lib/api";
 import type { components } from "@/types/api";
 
 export type LessonDetail = components["schemas"]["LessonDetail"];
+export type SongDetail = components["schemas"]["SongDetail"];
+export type ImageScheme = components["schemas"]["ImageScheme"];
 
 export const lessonsApi = {
   fetchLesson: async (uuid: string, courseUuid?: string): Promise<LessonDetail> =>
