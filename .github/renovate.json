@@ -1,0 +1,60 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+
+  "minimumReleaseAge": "3 days",
+
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "minimumReleaseAge": "0 days"
+  },
+
+  "schedule": ["before 6am on Saturday"],
+
+  "labels": ["dependencies"],
+  "commitMessagePrefix": "chore(deps):",
+  "rebaseWhen": "conflicted",
+  "separateMajorMinor": true,
+  "major": {
+    "labels": ["dependencies", "breaking-change"]
+  },
+
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "dev-dependencies",
+      "labels": ["dependencies", "npm"]
+    },
+    {
+      "matchPackageNames": ["next", "@next/**"],
+      "groupName": "nextjs",
+      "minimumReleaseAge": "5 days"
+    },
+    {
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react"
+    },
+    {
+      "matchPackageNames": ["eslint", "eslint-*", "@typescript-eslint/**", "prettier"],
+      "groupName": "linting"
+    },
+    {
+      "matchPackageNames": ["vitest", "@testing-library/**"],
+      "groupName": "testing"
+    },
+    {
+      "matchPackageNames": ["typescript", "ts-node", "tslib"],
+      "groupName": "build-tooling"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "labels": ["dependencies", "ci"]
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "labels": ["dependencies", "docker"]
+    }
+  ]
+}
