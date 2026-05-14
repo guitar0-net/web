@@ -36,3 +36,4 @@ jobs:
           gh label create "npm"            --repo "$REPO" --color "cb3837" --description "npm package updates"          --force
           gh label create "docker"         --repo "$REPO" --color "2496ed" --description "Docker image updates"         --force
           gh label create "ci"             --repo "$REPO" --color "f4a261" --description "GitHub Actions updates"       --force
+          gh label create "breaking-change" --repo "$REPO" --color "b60205" --description "Major version bump"            --force

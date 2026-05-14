@@ -16,6 +16,7 @@ path = [
   "src/lib/utils.ts",
   "schemas/openapi.yaml",
   "src/types/api.d.ts",
+  ".github/renovate.json",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Andrey Kotlyar <guitar0.app@gmail.com>"
