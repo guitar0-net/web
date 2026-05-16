@@ -7,6 +7,7 @@
 "use client";
 
 import { PostHogProvider } from "@posthog/react";
+import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
 import { useEffect, type ReactNode } from "react";
 
@@ -14,17 +15,28 @@ type Props = {
   children: ReactNode;
 };
 
-export function AnalyticsProvider({ children }: Props) {
-  useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-    if (!key || process.env.NODE_ENV !== "production") return;
+const isAnalyticsEnabled =
+  !!process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NODE_ENV === "production";
 
-    posthog.init(key, {
+export function AnalyticsProvider({ children }: Props) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isAnalyticsEnabled) return;
+
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: "https://eu.i.posthog.com",
       defaults: "2026-01-30",
-      persistence: "memory",
+      persistence: "localStorage",
+      capture_pageview: false,
+      autocapture: false,
     });
   }, []);
+
+  useEffect(() => {
+    if (!isAnalyticsEnabled) return;
+    posthog.capture("$pageview", { $current_url: window.location.href });
+  }, [pathname]);
 
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
 }
