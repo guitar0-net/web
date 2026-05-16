@@ -5,6 +5,7 @@
 // @vitest-environment jsdom
 
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import type { SongDetail } from "../api";
 import { SongsSection } from "./songs-section";
@@ -30,6 +31,14 @@ it("renders a tab trigger for each song title", () => {
   render(<SongsSection songs={songs} />);
   expect(screen.getByRole("tab", { name: songs[0].title })).toBeInTheDocument();
   expect(screen.getByRole("tab", { name: songs[1].title })).toBeInTheDocument();
+});
+
+it("clicking a tab trigger selects it", async () => {
+  const songs = [makeSong(), makeSong()];
+  render(<SongsSection songs={songs} />);
+  const secondTab = screen.getByRole("tab", { name: songs[1].title });
+  await userEvent.click(secondTab);
+  expect(secondTab).toHaveAttribute("aria-selected", "true");
 });
 
 it("renders exactly as many tab triggers as songs", () => {

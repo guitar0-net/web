@@ -12,6 +12,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SongPreferencesHydrator } from "@/components/song-preferences-hydrator";
+import { AnalyticsProvider } from "@/lib/analytics/analytics-provider";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -44,12 +45,14 @@ export default async function RootLayout({ children }: Readonly<Props>) {
       className={cn("font-sans", geist.variable, debby.variable, graffiti.variable)}
     >
       <body className="flex min-h-screen flex-col antialiased">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SongPreferencesHydrator />
-          <Header />
-          <div className="flex flex-1 flex-col">{children}</div>
-          <Footer />
-        </ThemeProvider>
+        <AnalyticsProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <SongPreferencesHydrator />
+            <Header />
+            <div className="flex flex-1 flex-col">{children}</div>
+            <Footer />
+          </ThemeProvider>
+        </AnalyticsProvider>
       </body>
     </html>
   );

@@ -7,6 +7,7 @@
 import { Music3 } from "lucide-react";
 
 import { ChordsSection } from "@/features/chords";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { useSongPreferencesStore } from "@/lib/song-preferences-store";
 
 import type { SongDetail } from "../api";
@@ -30,6 +31,11 @@ export function SongCard({ song }: SongCardProps) {
     toggle,
     toggleChordOrientation,
   } = useSongPreferencesStore();
+  const {
+    trackChordOrientationToggled,
+    trackChordSectionToggled,
+    trackSchemeSectionToggled,
+  } = useAnalytics();
 
   return (
     <div className="space-y-6">
@@ -57,10 +63,18 @@ export function SongCard({ song }: SongCardProps) {
           size={chordSize}
           orientation={chordOrientation}
           visible={chordVisible}
-          onOrientationToggle={toggleChordOrientation}
+          onOrientationToggle={() => {
+            toggleChordOrientation();
+            trackChordOrientationToggled(
+              chordOrientation === "horizontal" ? "vertical" : "horizontal",
+            );
+          }}
           onSizeDecrease={() => decreaseSize("chordSize")}
           onSizeIncrease={() => increaseSize("chordSize")}
-          onVisibleToggle={() => toggle("chordVisible")}
+          onVisibleToggle={() => {
+            toggle("chordVisible");
+            trackChordSectionToggled(!chordVisible);
+          }}
         />
       )}
 
@@ -71,7 +85,10 @@ export function SongCard({ song }: SongCardProps) {
           visible={schemeVisible}
           onSizeDecrease={() => decreaseSize("schemeSize")}
           onSizeIncrease={() => increaseSize("schemeSize")}
-          onVisibleToggle={() => toggle("schemeVisible")}
+          onVisibleToggle={() => {
+            toggle("schemeVisible");
+            trackSchemeSectionToggled(!schemeVisible);
+          }}
         />
       )}
 

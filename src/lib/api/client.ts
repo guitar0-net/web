@@ -8,7 +8,6 @@ import type { PathsWithMethod } from "openapi-typescript-helpers";
 
 import type { paths } from "@/types/api";
 
-import { config } from "../config";
 import { errorMiddleware } from "./middleware/errors";
 import { unwrap } from "./unwrap";
 
@@ -34,4 +33,4 @@ export function buildApiClient<T extends object>(baseUrl: string) {
   };
 }
 
-export const apiClient = buildApiClient<paths>(config.apiUrl);
+export const apiClient = buildApiClient<paths>(process.env.NEXT_PUBLIC_API_URL!);
