@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+export const ADMIN_EMAIL = "guitar0.app@gmail.com";
+
 export const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=com.andreykotlyar.guitar0";
 

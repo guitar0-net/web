@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { config } from "@/lib/config";
+import { ADMIN_EMAIL } from "@/lib/constants";
 
 export default function PrivacyPolicy() {
   return (
@@ -86,8 +86,7 @@ export default function PrivacyPolicy() {
           <h2>7. Контакты</h2>
           <p>
             Если у вас есть вопросы относительно данной Политики конфиденциальности или
-            ваших данных, вы можете связаться с нами по электронной почте{" "}
-            {config.adminEmail}.
+            ваших данных, вы можете связаться с нами по электронной почте {ADMIN_EMAIL}.
           </p>
         </section>
       </article>
