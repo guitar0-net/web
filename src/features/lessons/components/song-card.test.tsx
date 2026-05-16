@@ -155,6 +155,30 @@ it("clicking scheme visibility toggle invokes toggle for schemeVisible", async (
   expect(useSongPreferencesStore.getState().schemeVisible).toBe(false);
 });
 
+it("clicking chord orientation toggle switches from horizontal to vertical", async () => {
+  useSongPreferencesStore.setState({
+    chordOrientation: "horizontal",
+    chordVisible: true,
+  });
+  render(<SongCard song={makeSong({ chords: [CHORD] })} />);
+  await userEvent.click(
+    within(chordsSection()).getByRole("button", { name: /toggle orientation/i }),
+  );
+  expect(useSongPreferencesStore.getState().chordOrientation).toBe("vertical");
+});
+
+it("clicking chord orientation toggle switches from vertical to horizontal", async () => {
+  useSongPreferencesStore.setState({
+    chordOrientation: "vertical",
+    chordVisible: true,
+  });
+  render(<SongCard song={makeSong({ chords: [CHORD] })} />);
+  await userEvent.click(
+    within(chordsSection()).getByRole("button", { name: /toggle orientation/i }),
+  );
+  expect(useSongPreferencesStore.getState().chordOrientation).toBe("horizontal");
+});
+
 it("clicking text size decrease invokes decreaseSize for textSize", async () => {
   useSongPreferencesStore.setState({ textSize: 3 });
   render(<SongCard song={makeSong({ chords: [], schemes: [] })} />);
