@@ -9,7 +9,7 @@
 import { PostHogProvider } from "@posthog/react";
 import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
-import { useEffect, type ReactNode } from "react";
+import { Suspense, useEffect, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -18,9 +18,18 @@ type Props = {
 const isAnalyticsEnabled =
   !!process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NODE_ENV === "production";
 
-export function AnalyticsProvider({ children }: Props) {
+function PageviewTracker() {
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (!isAnalyticsEnabled) return;
+    posthog.capture("$pageview", { $current_url: window.location.href });
+  }, [pathname]);
+
+  return null;
+}
+
+export function AnalyticsProvider({ children }: Props) {
   useEffect(() => {
     if (!isAnalyticsEnabled) return;
 
@@ -33,10 +42,12 @@ export function AnalyticsProvider({ children }: Props) {
     });
   }, []);
 
-  useEffect(() => {
-    if (!isAnalyticsEnabled) return;
-    posthog.capture("$pageview", { $current_url: window.location.href });
-  }, [pathname]);
-
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+  return (
+    <PostHogProvider client={posthog}>
+      <Suspense>
+        <PageviewTracker />
+      </Suspense>
+      {children}
+    </PostHogProvider>
+  );
 }
