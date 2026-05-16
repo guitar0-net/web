@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 
 import type { SongDetail } from "../api";
 import { SongCard } from "./song-card";
@@ -14,11 +15,19 @@ interface SongsSectionProps {
 }
 
 export function SongsSection({ songs }: SongsSectionProps) {
+  const { trackSongTabSelected } = useAnalytics();
+
   if (songs.length === 0) return null;
 
   return (
     <section className="container mx-auto px-4 py-8">
-      <Tabs defaultValue={String(songs[0].id)}>
+      <Tabs
+        defaultValue={String(songs[0].id)}
+        onValueChange={(value) => {
+          const song = songs.find((s) => String(s.id) === value);
+          trackSongTabSelected(value, song?.title);
+        }}
+      >
         <TabsList className="mb-6 flex-wrap gap-2">
           {songs.map((song) => (
             <TabsTrigger key={song.id} value={String(song.id)}>

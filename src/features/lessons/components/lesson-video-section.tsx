@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { useSongPreferencesStore } from "@/lib/song-preferences-store";
 
 import { LessonVideo } from "./lesson-video";
@@ -17,6 +18,7 @@ interface LessonVideoSectionProps {
 export function LessonVideoSection({ videoUrl }: LessonVideoSectionProps) {
   const { videoSize, videoVisible, videoPinned, decreaseSize, increaseSize, toggle } =
     useSongPreferencesStore();
+  const { trackVideoVisibilityToggled, trackVideoPinToggled } = useAnalytics();
 
   return (
     <LessonVideo
@@ -26,8 +28,14 @@ export function LessonVideoSection({ videoUrl }: LessonVideoSectionProps) {
       pinned={videoPinned}
       onSizeDecrease={() => decreaseSize("videoSize")}
       onSizeIncrease={() => increaseSize("videoSize")}
-      onVisibleToggle={() => toggle("videoVisible")}
-      onPinToggle={() => toggle("videoPinned")}
+      onVisibleToggle={() => {
+        toggle("videoVisible");
+        trackVideoVisibilityToggled(!videoVisible);
+      }}
+      onPinToggle={() => {
+        toggle("videoPinned");
+        trackVideoPinToggled(!videoPinned);
+      }}
     />
   );
 }
