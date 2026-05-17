@@ -20,7 +20,6 @@
     "check:api": "tmp=$(mktemp /tmp/api-check.XXXXXX.d.ts) && openapi-typescript schemas/openapi.yaml -o \"$tmp\" && prettier --write \"$tmp\" && diff src/types/api.d.ts \"$tmp\" || (echo 'api.d.ts is out of sync with openapi.yaml. Run: npm run api:generate' && exit 1)"
   },
   "dependencies": {
-    "@posthog/react": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.577.0",
