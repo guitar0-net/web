@@ -8,10 +8,12 @@ import posthog from "posthog-js";
 
 if (process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NODE_ENV === "production") {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: "https://eu.i.posthog.com",
+    api_host: "/ingest",
+    ui_host: "https://eu.posthog.com",
     defaults: "2026-01-30",
     persistence: "localStorage",
     capture_pageview: false,
     autocapture: false,
+    capture_exceptions: true,
   });
 }
