@@ -7,6 +7,7 @@
 import type { MetadataRoute } from "next";
 
 import { coursesApi } from "@/features/courses";
+import { lessonsApi } from "@/features/lessons";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://guitar0.net";
 
@@ -26,10 +27,22 @@ async function fetchAllCourseUrls(): Promise<MetadataRoute.Sitemap> {
   }));
 }
 
+async function fetchAllLessonUrls(): Promise<MetadataRoute.Sitemap> {
+  const { results } = await lessonsApi.fetchLessons({ limit: 200 });
+  return results.map((lesson) => ({
+    url: `${siteUrl}/lessons/${lesson.uuid}`,
+    priority: 0.6,
+    changeFrequency: "weekly" as const,
+  }));
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
-    const courseUrls = await fetchAllCourseUrls();
-    return [...staticRoutes, ...courseUrls];
+    const [courseUrls, lessonUrls] = await Promise.all([
+      fetchAllCourseUrls(),
+      fetchAllLessonUrls(),
+    ]);
+    return [...staticRoutes, ...courseUrls, ...lessonUrls];
   } catch {
     return staticRoutes;
   }
