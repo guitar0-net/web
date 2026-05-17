@@ -8,6 +8,8 @@ import { apiClient } from "@/lib/api";
 import type { components } from "@/types/api";
 
 export type LessonDetail = components["schemas"]["LessonDetail"];
+export type PaginatedLessonsListList =
+  components["schemas"]["PaginatedLessonsListList"];
 export type SongDetail = components["schemas"]["SongDetail"];
 export type ImageScheme = components["schemas"]["ImageScheme"];
 
@@ -16,4 +18,10 @@ export const lessonsApi = {
     apiClient.get("/api/v1/lessons/{uuid}/", {
       params: { path: { uuid }, query: { course: courseUuid } },
     }),
+
+  fetchLessons: async (params?: {
+    limit?: number;
+    offset?: number;
+  }): Promise<PaginatedLessonsListList> =>
+    apiClient.get("/api/v1/lessons/", { params: { query: params } }),
 };
