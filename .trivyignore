@@ -28,3 +28,8 @@ CVE-2026-28388 exp:2026-07-01
 # OpenSSL: RSA public key parsing vulnerability
 # Debian rates LOW; NVD rates HIGH — no user-controlled RSA key parsing
 CVE-2026-28387 exp:2026-07-01
+
+# glibc: Integer overflow in memalign leads to heap corruption (CVSS 7.8)
+# Fixed in 2.36-9+deb12u14, waiting for distroless base image update
+# Not exploitable: requires alignment arg in [1<<62+1, 1<<63] range — never reached from Node.js
+CVE-2026-0861 exp:2026-07-01
