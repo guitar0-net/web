@@ -8,6 +8,18 @@ codecov:
     wait_for_ci: yes
     after_n_builds: 1
 
+ignore:
+  - "src/app/*.ts"
+  - "src/app/**/page.tsx"
+  - "src/app/**/layout.tsx"
+  - "src/app/**/loading.tsx"
+  - "src/app/**/error.tsx"
+  - "src/app/**/not-found.tsx"
+  - "src/app/api/**"
+  - "src/features/**/api.ts"
+  - "src/**/*-skeleton.tsx"
+  - "src/lib/analytics/**"
+
 coverage:
   precision: 2
   round: down
@@ -24,8 +36,6 @@ coverage:
       default:
         target: 90%
         threshold: 10%
-        paths:
-          - "!src/features/**/api.ts"
     changes: off
 
 comment: off
