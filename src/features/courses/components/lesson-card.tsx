@@ -54,7 +54,7 @@ export function LessonCard({ lesson: { order, lesson }, courseId }: LessonCardPr
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <span className="text-muted-foreground text-sm">Тексты:</span>
                 {lesson.songs.map((song) => (
-                  <Badge key={song.id} variant="secondary">
+                  <Badge key={song.uuid} variant="secondary">
                     {song.title}
                   </Badge>
                 ))}
