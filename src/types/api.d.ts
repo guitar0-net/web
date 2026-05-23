@@ -399,7 +399,8 @@ export interface components {
     };
     /** @description Song detail serializer. */
     SongDetail: {
-      readonly id: number;
+      /** Format: uuid */
+      readonly uuid: string;
       /** Название */
       title: string;
       /**
@@ -414,7 +415,8 @@ export interface components {
     };
     /** @description Serializer for list of songs. */
     SongList: {
-      readonly id: number;
+      /** Format: uuid */
+      readonly uuid: string;
       /** Название */
       title: string;
     };

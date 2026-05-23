@@ -683,8 +683,9 @@ components:
       type: object
       description: Song detail serializer.
       properties:
-        id:
-          type: integer
+        uuid:
+          type: string
+          format: uuid
           readOnly: true
         title:
           type: string
@@ -711,24 +712,25 @@ components:
           readOnly: true
       required:
       - chords
-      - id
       - schemes
       - text
       - title
+      - uuid
     SongList:
       type: object
       description: Serializer for list of songs.
       properties:
-        id:
-          type: integer
+        uuid:
+          type: string
+          format: uuid
           readOnly: true
         title:
           type: string
           title: Название
           maxLength: 200
       required:
-      - id
       - title
+      - uuid
   securitySchemes:
     cookieAuth:
       type: apiKey
