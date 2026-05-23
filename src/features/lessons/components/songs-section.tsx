@@ -22,21 +22,21 @@ export function SongsSection({ songs }: SongsSectionProps) {
   return (
     <section className="container mx-auto px-4 py-8">
       <Tabs
-        defaultValue={String(songs[0].id)}
+        defaultValue={songs[0].uuid}
         onValueChange={(value) => {
-          const song = songs.find((s) => String(s.id) === value);
+          const song = songs.find((s) => s.uuid === value);
           trackSongTabSelected(value, song?.title);
         }}
       >
         <TabsList className="mb-6 flex-wrap gap-2">
           {songs.map((song) => (
-            <TabsTrigger key={song.id} value={String(song.id)}>
+            <TabsTrigger key={song.uuid} value={song.uuid}>
               {song.title}
             </TabsTrigger>
           ))}
         </TabsList>
         {songs.map((song) => (
-          <TabsContent key={song.id} value={String(song.id)}>
+          <TabsContent key={song.uuid} value={song.uuid}>
             <SongCard song={song} />
           </TabsContent>
         ))}

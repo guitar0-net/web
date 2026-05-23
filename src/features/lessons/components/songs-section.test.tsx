@@ -12,7 +12,7 @@ import { SongsSection } from "./songs-section";
 
 function makeSong(overrides: Partial<SongDetail> = {}): SongDetail {
   return {
-    id: Math.floor(Math.random() * 1000),
+    uuid: crypto.randomUUID(),
     title: `Песня-${Math.random().toString(36).slice(2)}`,
     text: "Текст",
     schemes: [],

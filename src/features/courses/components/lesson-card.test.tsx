@@ -78,11 +78,11 @@ it("does not render duration when zero", () => {
 it("renders each song title as a badge", () => {
   const songs = [
     {
-      id: Math.floor(Math.random() * 1000),
+      uuid: crypto.randomUUID(),
       title: `Песня-${Math.random().toString(36).slice(2)}`,
     },
     {
-      id: Math.floor(Math.random() * 1000),
+      uuid: crypto.randomUUID(),
       title: `Песня-${Math.random().toString(36).slice(2)}`,
     },
   ];

@@ -34,6 +34,9 @@ typecheck: ## Run TypeScript type check
 test: ## Run tests
 	npm run test
 
+e2e: ## Run Playwright E2E tests (first run: npx playwright install chromium)
+	npm run test:e2e
+
 ci: lint format typecheck test ## Run all checks (lint, format, typecheck, test)
 
 loc: ## Count lines of code vs tests
