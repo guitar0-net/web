@@ -55,6 +55,9 @@ make ci          lint + format + typecheck + test
 
 make dev         start development server
 make build       production build
+
+make e2e         run Playwright E2E tests
+                 first run: npx playwright install chromium
 ```
 
 ## API Contract
