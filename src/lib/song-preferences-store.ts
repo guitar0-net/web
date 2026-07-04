@@ -11,10 +11,7 @@ type ChordOrientation = "horizontal" | "vertical";
 
 export type SizeKey = "schemeSize" | "chordSize" | "textSize" | "videoSize";
 export type ToggleKey =
-  | "schemeVisible"
-  | "chordVisible"
-  | "videoVisible"
-  | "videoPinned";
+  "schemeVisible" | "chordVisible" | "videoVisible" | "videoPinned";
 
 interface SongPreferencesState {
   schemeSize: Size;
