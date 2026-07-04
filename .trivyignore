@@ -3,38 +3,32 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 
-# OpenSSL DoS in CMS EnvelopedData processing
+# OpenSSL: Heap buffer overflow on 32-bit systems from large X.509 certificate processing (CVSS 9.1, CRITICAL)
 # Fixed in 3.0.19, waiting for distroless base image update
-# Not exploitable in our context (no CMS/S/MIME usage)
-CVE-2026-28390 exp:2026-07-01
+# Only affects 32-bit platforms; deploy.yml builds linux/amd64 only
+CVE-2026-31789 exp:2026-07-25
 
-# OpenSSL: Information Disclosure via invalid RSA public key
-# Fixed in 3.0.19, waiting for distroless update
-# Not exploitable in our context (no user-supplied RSA key parsing)
-CVE-2026-31790 exp:2026-07-01
+# OpenSSL: Arbitrary code execution due to use-after-free in client-side DANE TLSA authentication
+# Fixed in 3.0.19, waiting for distroless base image update
+# Not exploitable in our context (no DANE TLSA-based authentication)
+CVE-2026-28387 exp:2026-07-25
 
-# OpenSSL: DANE TLS certificate verification bypass
-# Debian rates LOW; NVD rates HIGH — not exploitable without DANE TLSA usage
-CVE-2026-31789 exp:2026-07-01
+# OpenSSL: NULL pointer dereference in delta CRL processing
+# Fixed in 3.0.19, waiting for distroless base image update
+# Not exploitable in our context (no CRL processing)
+CVE-2026-28388 exp:2026-07-25
 
-# OpenSSL: Delta CRL processing issue
-# Debian rates LOW; NVD rates HIGH — not exploitable without CRL delta processing
-CVE-2026-28389 exp:2026-07-01
+# OpenSSL: Denial of Service in CMS processing (KeyAgreeRecipientInfo)
+# Fixed in 3.0.19, waiting for distroless base image update
+# Not exploitable in our context (no CMS/S-MIME usage)
+CVE-2026-28389 exp:2026-07-25
 
-# OpenSSL: OCTET STRING oversized value conversion
-# Debian rates LOW; NVD rates HIGH — no user-controlled input paths affected
-CVE-2026-28388 exp:2026-07-01
-
-# OpenSSL: RSA public key parsing vulnerability
-# Debian rates LOW; NVD rates HIGH — no user-controlled RSA key parsing
-CVE-2026-28387 exp:2026-07-01
-
-# glibc: Integer overflow in memalign leads to heap corruption (CVSS 7.8)
-# Fixed in 2.36-9+deb12u14, waiting for distroless base image update
-# Not exploitable: requires alignment arg in [1<<62+1, 1<<63] range — never reached from Node.js
-CVE-2026-0861 exp:2026-07-01
+# OpenSSL: Denial of Service in CMS EnvelopedData processing (KeyTransportRecipientInfo)
+# Fixed in 3.0.19, waiting for distroless base image update
+# Not exploitable in our context (no CMS/S-MIME usage)
+CVE-2026-28390 exp:2026-07-25
 
 # OpenSSL: Heap use-after-free in PKCS7_verify() (CVSS 8.8)
 # Fixed in 3.0.20-1~deb12u2, waiting for distroless base image update
 # Not exploitable in our context: no PKCS#7 or S/MIME message processing
-CVE-2026-45447 exp:2026-08-01
+CVE-2026-45447 exp:2026-07-25
