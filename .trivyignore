@@ -2,33 +2,9 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-
-# OpenSSL: Heap buffer overflow on 32-bit systems from large X.509 certificate processing (CVSS 9.1, CRITICAL)
-# Fixed in 3.0.19, waiting for distroless base image update
-# Only affects 32-bit platforms; deploy.yml builds linux/amd64 only
-CVE-2026-31789 exp:2026-08-22
-
-# OpenSSL: Arbitrary code execution due to use-after-free in client-side DANE TLSA authentication
-# Fixed in 3.0.19, waiting for distroless base image update
-# Not exploitable in our context (no DANE TLSA-based authentication)
-CVE-2026-28387 exp:2026-08-22
-
-# OpenSSL: NULL pointer dereference in delta CRL processing
-# Fixed in 3.0.19, waiting for distroless base image update
-# Not exploitable in our context (no CRL processing)
-CVE-2026-28388 exp:2026-08-22
-
-# OpenSSL: Denial of Service in CMS processing (KeyAgreeRecipientInfo)
-# Fixed in 3.0.19, waiting for distroless base image update
-# Not exploitable in our context (no CMS/S-MIME usage)
-CVE-2026-28389 exp:2026-08-22
-
-# OpenSSL: Denial of Service in CMS EnvelopedData processing (KeyTransportRecipientInfo)
-# Fixed in 3.0.19, waiting for distroless base image update
-# Not exploitable in our context (no CMS/S-MIME usage)
-CVE-2026-28390 exp:2026-08-22
-
-# OpenSSL: Heap use-after-free in PKCS7_verify() (CVSS 8.8)
-# Fixed in 3.0.20-1~deb12u2, waiting for distroless base image update
-# Not exploitable in our context: no PKCS#7 or S/MIME message processing
-CVE-2026-45447 exp:2026-08-22
+# No active exceptions.
+#
+# Policy: add an entry here only when a CVE has no fix available in the base
+# image AND is provably unreachable from this application. Always include the
+# reasoning and an `exp:` date, and prefer bumping the base image over adding
+# an exception -- exceptions expire and break the deploy pipeline.
