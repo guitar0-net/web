@@ -12,19 +12,29 @@ import {
   ValidationError,
 } from "../errors";
 
-export async function normalizeErrorResponse(response: Response): Promise<Response> {
+export async function normalizeErrorResponse(
+  response: Response,
+  schemaPath: string,
+  requestPath?: string,
+): Promise<Response> {
   if (response.ok) return response;
 
   const data = await response.json().catch(() => undefined);
+  const details = { schemaPath, requestPath, data };
 
-  if (response.status === 401) throw new UnauthorizedError(data);
-  if (response.status === 403) throw new ForbiddenError(data);
-  if (response.status === 404) throw new NotFoundError(data);
-  if (response.status === 422) throw new ValidationError(data);
+  if (response.status === 401) throw new UnauthorizedError(details);
+  if (response.status === 403) throw new ForbiddenError(details);
+  if (response.status === 404) throw new NotFoundError(details);
+  if (response.status === 422) throw new ValidationError(details);
 
-  throw new ApiError(response.status, `API error: ${response.status}`, data);
+  throw new ApiError({
+    ...details,
+    status: response.status,
+    reason: `API error: ${response.status}`,
+  });
 }
 
 export const errorMiddleware: Middleware = {
-  onResponse: ({ response }) => normalizeErrorResponse(response),
+  onResponse: ({ response, request, schemaPath }) =>
+    normalizeErrorResponse(response, schemaPath, new URL(request.url).pathname),
 };

@@ -33,6 +33,18 @@ it("renders the publication date when published_at is provided", () => {
   expect(screen.getByRole("time")).toBeInTheDocument();
 });
 
+it("renders the publication date in the site time zone, not the ambient one", () => {
+  const announcement = {
+    uuid: crypto.randomUUID(),
+    title: `Анонс-${Math.random().toString(36).slice(2)}`,
+    slug: `anons-${Math.random().toString(36).slice(2)}`,
+    content: "",
+    published_at: "2026-03-15T23:30:00Z",
+  };
+  render(<AnnouncementCard announcement={announcement} />);
+  expect(screen.getByRole("time")).toHaveTextContent("16.03.2026");
+});
+
 it("renders product_version badge when product_version is provided", () => {
   const version = `v${Math.floor(Math.random() * 10)}.${Math.floor(Math.random() * 100)}.0`;
   const announcement = {

@@ -13,7 +13,7 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    env: loadEnv("test", process.cwd(), ""),
+    env: { ...loadEnv("test", process.cwd(), ""), TZ: "America/Los_Angeles" },
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["node_modules", ".next"],

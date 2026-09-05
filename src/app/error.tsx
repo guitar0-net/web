@@ -6,6 +6,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,12 @@ export default function Error({ error, reset }: Props) {
       stack: error.stack,
       digest: error.digest,
     });
+    if (!posthog.__loaded) return;
+    if (error.digest) {
+      posthog.capture("server_error_displayed", { digest: error.digest });
+      return;
+    }
+    posthog.captureException(error);
   }, [error]);
 
   const isServerError = !!error.digest;
