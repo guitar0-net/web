@@ -17,6 +17,8 @@ path = [
   "schemas/openapi.yaml",
   "src/types/api.d.ts",
   ".github/renovate.json",
+  "AGENTS.md",
+  "CLAUDE.md",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Andrey Kotlyar <guitar0.app@gmail.com>"
