@@ -24,11 +24,18 @@ function buildTestClient(url: string) {
 
 describe("unwrap unit", () => {
   it("returns data on a successful response", () => {
-    expect(unwrapModule.unwrap({ data: 42 })).toBe(42);
+    expect(unwrapModule.unwrap({ data: 42 }, "/api/v1/уроки/")).toBe(42);
   });
 
   it("throws when data is absent", () => {
-    expect(() => unwrapModule.unwrap({})).toThrow("Response contained no data");
+    expect(() => unwrapModule.unwrap({}, "/api/v1/аккорды/")).toThrow(
+      "Response contained no data",
+    );
+  });
+
+  it("names the failing schema path when data is absent", () => {
+    const schemaPath = `/api/v1/песни-${Math.random().toString(36).slice(2)}/{uuid}/`;
+    expect(() => unwrapModule.unwrap({}, schemaPath)).toThrow(schemaPath);
   });
 
   it("never receives an error field — errorMiddleware throws first", async () => {
@@ -36,7 +43,9 @@ describe("unwrap unit", () => {
       status: 401,
       headers: { "Content-Type": "application/json" },
     });
-    await expect(normalizeErrorResponse(errorResponse)).rejects.toThrow();
+    await expect(
+      normalizeErrorResponse(errorResponse, "/api/v1/уроки/{uuid}/"),
+    ).rejects.toThrow();
   });
 });
 

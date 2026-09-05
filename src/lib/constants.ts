@@ -13,3 +13,9 @@ export const VK_URL = "https://vk.com/0guitars";
 export const GITHUB_URL = "https://github.com/guitar0-net";
 export const GITHUB_BACKEND_URL = "https://github.com/guitar0-net/backend";
 export const GITHUB_WEB_URL = "https://github.com/guitar0-net/web";
+
+export const POSTHOG_HOST = "https://eu.i.posthog.com";
+export const POSTHOG_ASSETS_HOST = "https://eu-assets.i.posthog.com";
+export const POSTHOG_UI_HOST = "https://eu.posthog.com";
+
+export const DISPLAY_TIME_ZONE = "Europe/Moscow";

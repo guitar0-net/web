@@ -4,6 +4,8 @@
 
 import type { NextConfig } from "next";
 
+import { POSTHOG_ASSETS_HOST, POSTHOG_HOST } from "./src/lib/constants";
+
 const nextConfig: NextConfig = {
   output: "standalone",
   cacheComponents: true,
@@ -14,15 +16,15 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/ingest/static/:path*",
-        destination: "https://eu-assets.i.posthog.com/static/:path*",
+        destination: `${POSTHOG_ASSETS_HOST}/static/:path*`,
       },
       {
         source: "/ingest/array/:path*",
-        destination: "https://eu-assets.i.posthog.com/array/:path*",
+        destination: `${POSTHOG_ASSETS_HOST}/array/:path*`,
       },
       {
         source: "/ingest/:path*",
-        destination: "https://eu.i.posthog.com/:path*",
+        destination: `${POSTHOG_HOST}/:path*`,
       },
     ];
   },

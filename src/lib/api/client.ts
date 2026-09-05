@@ -22,14 +22,14 @@ export function buildApiClient<T extends object>(baseUrl: string) {
   raw.use(errorMiddleware);
 
   return {
-    get: async <P extends PathsWithMethod<T, "get">>(
+    get: async <P extends PathsWithMethod<T, "get"> & string>(
       path: P,
       init?: GetInit<T[P]>,
     ): Promise<MethodResponse<Client<T>, "get", P>> =>
       // InitParam<Init> is not exported from openapi-fetch, so TypeScript cannot match
       // `init?` against the rest-param `...init: InitParam<Init>` for generic T[P].
       // The call site is fully type-safe; only the internal bridge needs `as never`.
-      unwrap(await raw.GET(path, init as never)),
+      unwrap(await raw.GET(path, init as never), path),
   };
 }
 

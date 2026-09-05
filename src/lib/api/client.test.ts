@@ -27,6 +27,15 @@ type TestPaths = {
       };
     };
   };
+  "/lessons/{uuid}/": {
+    get: {
+      parameters: { path: { uuid: string } };
+      responses: {
+        200: { content: { "application/json": { data: string } } };
+        404: { content: { "application/json": { detail: string } } };
+      };
+    };
+  };
 };
 
 describe("buildApiClient", () => {
@@ -126,6 +135,25 @@ describe("buildApiClient", () => {
         ]);
         expect(results).toHaveLength(3);
         expect(results.every((r) => r.data === body.data)).toBe(true);
+      },
+    );
+  });
+
+  it("reports both the schema path and the concrete path of a failed request", async () => {
+    const uuid = crypto.randomUUID();
+    await withServer(
+      (_, res) => {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ detail: Math.random().toString(36) }));
+      },
+      async (url) => {
+        const client = buildApiClient<TestPaths>(url);
+        await expect(
+          client.get("/lessons/{uuid}/", { params: { path: { uuid } } }),
+        ).rejects.toMatchObject({
+          schemaPath: "/lessons/{uuid}/",
+          requestPath: `/lessons/${uuid}/`,
+        });
       },
     );
   });

@@ -17,10 +17,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DISPLAY_TIME_ZONE } from "@/lib/constants";
 
 import type { AnnouncementsListItem } from "../api";
 
 const PREVIEW_LIMIT = 150;
+const PUBLISHED_AT_FORMAT = new Intl.DateTimeFormat("ru-RU", {
+  timeZone: DISPLAY_TIME_ZONE,
+});
 
 function truncateMarkdown(content: string): { text: string; truncated: boolean } {
   if (content.length <= PREVIEW_LIMIT) {
@@ -49,7 +53,7 @@ interface AnnouncementCardProps {
 export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
   const { text: previewText } = truncateMarkdown(announcement.content);
   const publishedDate = announcement.published_at
-    ? new Date(announcement.published_at).toLocaleDateString("ru-RU")
+    ? PUBLISHED_AT_FORMAT.format(new Date(announcement.published_at))
     : null;
 
   return (

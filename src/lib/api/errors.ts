@@ -2,14 +2,28 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+interface ApiErrorInit {
+  status: number;
+  reason: string;
+  schemaPath: string;
+  requestPath?: string;
+  data?: unknown;
+}
+
+export type ApiErrorDetails = Omit<ApiErrorInit, "status" | "reason">;
+
 export class ApiError extends Error {
   public readonly status: number;
+  public readonly schemaPath: string;
+  public readonly requestPath?: string;
   public readonly data?: unknown;
 
-  constructor(status: number, message: string, data?: unknown) {
-    super(message);
+  constructor({ status, reason, schemaPath, requestPath, data }: ApiErrorInit) {
+    super(`${reason} — ${schemaPath}`);
     this.name = "ApiError";
     this.status = status;
+    this.schemaPath = schemaPath;
+    this.requestPath = requestPath;
     this.data = data;
 
     Object.setPrototypeOf(this, new.target.prototype);
@@ -17,29 +31,29 @@ export class ApiError extends Error {
 }
 
 export class NotFoundError extends ApiError {
-  constructor(data?: unknown) {
-    super(404, "Not found", data);
+  constructor(details: ApiErrorDetails) {
+    super({ ...details, status: 404, reason: "Not found" });
     this.name = "NotFoundError";
   }
 }
 
 export class UnauthorizedError extends ApiError {
-  constructor(data?: unknown) {
-    super(401, "Unauthorized", data);
+  constructor(details: ApiErrorDetails) {
+    super({ ...details, status: 401, reason: "Unauthorized" });
     this.name = "UnauthorizedError";
   }
 }
 
 export class ForbiddenError extends ApiError {
-  constructor(data?: unknown) {
-    super(403, "Forbidden", data);
+  constructor(details: ApiErrorDetails) {
+    super({ ...details, status: 403, reason: "Forbidden" });
     this.name = "ForbiddenError";
   }
 }
 
 export class ValidationError extends ApiError {
-  constructor(data?: unknown) {
-    super(422, "Unprocessable Entity", data);
+  constructor(details: ApiErrorDetails) {
+    super({ ...details, status: 422, reason: "Unprocessable Entity" });
     this.name = "ValidationError";
   }
 }
