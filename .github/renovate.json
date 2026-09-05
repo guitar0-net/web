@@ -1,12 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": ["config:recommended", "group:allNonMajor"],
 
   "minimumReleaseAge": "3 days",
 
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
-    "labels": ["security"],
+    "labels": ["dependencies", "security"],
     "minimumReleaseAge": "0 days"
   },
 
@@ -14,47 +14,52 @@
 
   "labels": ["dependencies"],
   "commitMessagePrefix": "chore(deps):",
-  "rebaseWhen": "conflicted",
-  "separateMajorMinor": true,
+  "rebaseWhen": "behind-base-branch",
   "major": {
     "labels": ["dependencies", "breaking-change"]
   },
 
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"],
+    "labels": ["dependencies", "npm"],
+    "commitMessageAction": "refresh transitive dependencies",
+    "postUpdateOptions": ["npmDedupe"]
+  },
+
   "packageRules": [
     {
-      "matchDepTypes": ["devDependencies"],
-      "groupName": "dev-dependencies",
-      "labels": ["dependencies", "npm"]
+      "matchManagers": ["npm"],
+      "addLabels": ["npm"]
     },
     {
-      "matchPackageNames": ["next", "@next/**"],
+      "matchPackageNames": ["next", "@next/**", "eslint-config-next"],
       "groupName": "nextjs",
       "minimumReleaseAge": "5 days"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["next", "@next/**", "eslint-config-next"],
+      "groupName": "nextjs-major"
     },
     {
       "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "groupName": "react"
     },
     {
-      "matchPackageNames": ["eslint", "eslint-*", "@typescript-eslint/**", "prettier"],
-      "groupName": "linting"
-    },
-    {
-      "matchPackageNames": ["vitest", "@testing-library/**"],
-      "groupName": "testing"
-    },
-    {
-      "matchPackageNames": ["typescript", "ts-node", "tslib"],
-      "groupName": "build-tooling"
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react-major"
     },
     {
       "matchManagers": ["github-actions"],
       "groupName": "github-actions",
-      "labels": ["dependencies", "ci"]
+      "addLabels": ["ci"]
     },
     {
       "matchManagers": ["dockerfile"],
-      "labels": ["dependencies", "docker"]
+      "groupName": "docker",
+      "addLabels": ["docker"]
     }
   ]
 }
