@@ -11,6 +11,6 @@ import PrivacyPolicy from "./page";
 describe("Privacy policy", () => {
   it("contain email", () => {
     render(<PrivacyPolicy />);
-    expect(screen.getByText(/guitar0\.app@gmail\.com/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/guitar0\.app@gmail\.com/i).length).toBeGreaterThan(0);
   });
 });
