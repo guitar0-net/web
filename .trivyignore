@@ -2,9 +2,17 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# No active exceptions.
-#
 # Policy: add an entry here only when a CVE has no fix available in the base
 # image AND is provably unreachable from this application. Always include the
 # reasoning and an `exp:` date, and prefer bumping the base image over adding
 # an exception -- exceptions expire and break the deploy pipeline.
+
+# OpenSSL (system libssl3t64 3.5.7-1~deb13u2), fixed in Debian 3.5.7-1~deb13u3,
+# waiting for gcr.io/distroless/nodejs24-debian13 to pick it up.
+# Unreachable: /nodejs/bin/node does not link libssl (DT_NEEDED is only libc,
+# libstdc++, libm, libgcc_s, libdl, libpthread) -- it bundles its own OpenSSL
+# 3.5.8 -- and the app uses neither QUIC nor DTLS.
+# CVE-2026-75804: DoS via unenforced QUIC connection flow control (HIGH)
+CVE-2026-75804 exp:2026-10-15
+# CVE-2026-84782: information disclosure via DTLS handshake retransmission (HIGH)
+CVE-2026-84782 exp:2026-10-15
