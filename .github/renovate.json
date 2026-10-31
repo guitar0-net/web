@@ -60,6 +60,13 @@
       "matchManagers": ["dockerfile"],
       "groupName": "docker",
       "addLabels": ["docker"]
+    },
+    {
+      "description": "Node runtime and its types must move to a new major together; distroless image tag (nodejs24) needs a manual bump",
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["node", "@types/node"],
+      "groupName": "node-major",
+      "dependencyDashboardApproval": true
     }
   ]
 }
