@@ -6,6 +6,8 @@
 
 import { render, screen } from "@testing-library/react";
 
+import { APP_STORE_URL } from "@/lib/constants";
+
 import { Footer, START_YEAR } from "./footer";
 
 vi.mock("next/cache", () => ({ cacheLife: vi.fn() }));
@@ -53,5 +55,13 @@ describe("Footer", () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  it("links to the App Store", async () => {
+    render(await Footer());
+    expect(screen.getByRole("link", { name: "App Store" })).toHaveAttribute(
+      "href",
+      APP_STORE_URL,
+    );
   });
 });

@@ -9,18 +9,22 @@ import {
   FaCode,
   FaGithub,
   FaGlobe,
-  FaHourglassHalf,
   FaMobileAlt,
   FaPython,
   FaReact,
   FaServer,
 } from "react-icons/fa";
-import { SiDjango, SiNextdotjs, SiTypescript } from "react-icons/si";
+import { SiDjango, SiExpo, SiNextdotjs, SiTypescript } from "react-icons/si";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { GITHUB_BACKEND_URL, GITHUB_URL, GITHUB_WEB_URL } from "@/lib/constants";
+import {
+  GITHUB_BACKEND_URL,
+  GITHUB_MOBILE_URL,
+  GITHUB_URL,
+  GITHUB_WEB_URL,
+} from "@/lib/constants";
 
 export function OpenSourceSection() {
   return (
@@ -108,28 +112,30 @@ export function OpenSourceSection() {
                 </Card>
               </Link>
 
-              <Card className="p-4">
-                <div className="flex items-start gap-3">
-                  <FaMobileAlt className="text-muted-foreground mt-0.5 size-5 shrink-0" />
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm font-medium">Mobile</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      <Badge variant="secondary" className="gap-1">
-                        <SiTypescript className="size-3" />
-                        TypeScript
-                      </Badge>
-                      <Badge variant="secondary" className="gap-1">
-                        <FaReact className="size-3" />
-                        React Native
-                      </Badge>
-                      <Badge variant="outline" className="text-muted-foreground gap-1">
-                        <FaHourglassHalf className="size-3" />
-                        Coming soon
-                      </Badge>
+              <Link href={GITHUB_MOBILE_URL} target="_blank" rel="noopener noreferrer">
+                <Card className="hover:border-primary/50 p-4 transition-colors">
+                  <div className="flex items-start gap-3">
+                    <FaMobileAlt className="text-muted-foreground mt-0.5 size-5 shrink-0" />
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm font-medium">Mobile</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        <Badge variant="secondary" className="gap-1">
+                          <SiTypescript className="size-3" />
+                          TypeScript
+                        </Badge>
+                        <Badge variant="secondary" className="gap-1">
+                          <SiExpo className="size-3" />
+                          Expo
+                        </Badge>
+                        <Badge variant="secondary" className="gap-1">
+                          <FaReact className="size-3" />
+                          React Native
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </Link>
             </div>
           </div>
         </Card>
