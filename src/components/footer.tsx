@@ -5,9 +5,10 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { FaTelegram, FaVk, FaYoutube, FaGithub } from "react-icons/fa";
-import { SiGoogleplay } from "react-icons/si";
+import { SiAppstore, SiGoogleplay } from "react-icons/si";
 
 import {
+  APP_STORE_URL,
   GOOGLE_PLAY_URL,
   YOUTUBE_URL,
   TELEGRAM_URL,
@@ -34,6 +35,11 @@ const APP_LINKS = [
     icon: SiGoogleplay,
     label: "Google Play",
   },
+  {
+    href: APP_STORE_URL,
+    icon: SiAppstore,
+    label: "App Store",
+  },
 ] as const;
 
 export async function Footer() {
@@ -55,18 +61,20 @@ export async function Footer() {
 
           <div className="flex flex-col gap-2 md:gap-3">
             <span>Приложения</span>
-            {APP_LINKS.map(({ href, icon: Icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Icon className="size-5" />
-              </Link>
-            ))}
+            <div className="flex gap-3">
+              {APP_LINKS.map(({ href, icon: Icon, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Icon className="size-5" />
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col gap-2 md:gap-3">

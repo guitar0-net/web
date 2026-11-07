@@ -6,6 +6,7 @@ export const ADMIN_EMAIL = "guitar0.app@gmail.com";
 
 export const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=com.andreykotlyar.guitar0";
+export const APP_STORE_URL = "https://apps.apple.com/app/id6818752464";
 
 export const YOUTUBE_URL = "https://www.youtube.com/@0guitars";
 export const TELEGRAM_URL = "https://t.me/konograi";
@@ -13,6 +14,7 @@ export const VK_URL = "https://vk.com/0guitars";
 export const GITHUB_URL = "https://github.com/guitar0-net";
 export const GITHUB_BACKEND_URL = "https://github.com/guitar0-net/backend";
 export const GITHUB_WEB_URL = "https://github.com/guitar0-net/web";
+export const GITHUB_MOBILE_URL = "https://github.com/guitar0-net/mobile";
 
 export const POSTHOG_HOST = "https://eu.i.posthog.com";
 export const POSTHOG_ASSETS_HOST = "https://eu-assets.i.posthog.com";
