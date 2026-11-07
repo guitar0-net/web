@@ -30,7 +30,7 @@ export function OpenSourceSection() {
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <Card className="mx-auto max-w-4xl overflow-hidden border-2">
+        <Card className="mx-auto max-w-4xl overflow-hidden border-2 py-0">
           <div className="grid md:grid-cols-[3fr_2fr]">
             <div className="flex flex-col gap-6 p-8 md:p-12">
               <div className="bg-primary/10 text-primary flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium">
