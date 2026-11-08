@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { LessonCard } from "@/components/lesson-card";
+
 import type { CourseLessonDetail } from "../api";
-import { LessonCard } from "./lesson-card";
 
 interface LessonListProps {
   lessons: CourseLessonDetail[];
@@ -13,9 +14,13 @@ interface LessonListProps {
 export function LessonList({ lessons, courseId }: LessonListProps) {
   return (
     <ol className="space-y-4">
-      {lessons.map((entry) => (
-        <li key={entry.lesson.uuid}>
-          <LessonCard lesson={entry} courseId={courseId} />
+      {lessons.map(({ order, lesson }) => (
+        <li key={lesson.uuid}>
+          <LessonCard
+            lesson={lesson}
+            order={order}
+            href={`/lessons/${lesson.uuid}?course=${courseId}`}
+          />
         </li>
       ))}
     </ol>

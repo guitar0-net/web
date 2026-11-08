@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { lessonsApi } from "@/features/lessons";
+import { AdditionalLessonsSection } from "@/features/lessons/components/additional-lessons-section";
 import { LessonBreadcrumbs } from "@/features/lessons/components/lesson-breadcrumbs";
 import { LessonHeader } from "@/features/lessons/components/lesson-header";
 import { LessonVideoSection } from "@/features/lessons/components/lesson-video-section";
@@ -53,6 +54,7 @@ export default async function LessonPage({ params, searchParams }: Props) {
       <LessonHeader title={lesson.title} description={lesson.description} />
       <LessonVideoSection videoUrl={lesson.video_url} />
       <SongsSection songs={lesson.songs} />
+      <AdditionalLessonsSection lessons={lesson.addition_lessons} />
     </>
   );
 }

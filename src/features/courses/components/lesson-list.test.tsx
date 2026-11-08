@@ -36,3 +36,21 @@ it("preserves the order in which lessons are provided", () => {
   expect(items[1]).toHaveTextContent(lessons[1].lesson.title);
   expect(items[2]).toHaveTextContent(lessons[2].lesson.title);
 });
+
+it("links each lesson to its page within the course context", () => {
+  const courseId = crypto.randomUUID();
+  const entry = makeLessonEntry(Math.floor(Math.random() * 50) + 1);
+  render(<LessonList lessons={[entry]} courseId={courseId} />);
+  expect(screen.getByRole("link", { name: entry.lesson.title })).toHaveAttribute(
+    "href",
+    `/lessons/${entry.lesson.uuid}?course=${courseId}`,
+  );
+});
+
+it("shows the lesson order number", () => {
+  const order = Math.floor(Math.random() * 50) + 1;
+  render(
+    <LessonList lessons={[makeLessonEntry(order)]} courseId={crypto.randomUUID()} />,
+  );
+  expect(screen.getByText(String(order))).toBeInTheDocument();
+});
