@@ -4,6 +4,136 @@ info:
   version: main
   description: Django REST API for guitar0.net platform
 paths:
+  /api/v1/auth/google/:
+    post:
+      operationId: auth_google_create
+      description: Verify the Google ID token and return JWT tokens for the user.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleAuthRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GoogleAuthRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GoogleAuthRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoogleAuthResponse'
+          description: ''
+        '400':
+          description: Missing `id_token`, or the token failed verification.
+        '403':
+          description: The Google account resolves to a staff or superuser.
+  /api/v1/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: Rotate a refresh token for a new access/refresh pair.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+          description: ''
+  /api/v1/auth/token/verify/:
+    post:
+      operationId: auth_token_verify_create
+      description: Verify that a JWT access token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+        required: true
+      responses:
+        '200':
+          description: No response body
+  /api/v1/auth/me/:
+    get:
+      operationId: auth_me_retrieve
+      description: Return the requesting user's profile fields.
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    delete:
+      operationId: auth_me_destroy
+      description: Delete the requesting user's account.
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/auth/logout/:
+    post:
+      operationId: auth_logout_create
+      description: Blacklist the given refresh token.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LogoutRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LogoutRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/chords/:
     get:
       operationId: chords_list
@@ -24,6 +154,7 @@ paths:
       tags:
       - chords
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -46,6 +177,7 @@ paths:
       tags:
       - chords
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -75,6 +207,7 @@ paths:
       tags:
       - lessons
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -104,6 +237,7 @@ paths:
       tags:
       - lessons
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -113,6 +247,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/LessonDetail'
           description: ''
+  /api/v1/songs/{uuid}/print/:
+    post:
+      operationId: songs_print_create
+      description: Accept print settings and return the song as a PDF document.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - songs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SongPrintSettingsRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SongPrintSettingsRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SongPrintSettingsRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+          description: The song rendered as a PDF document.
+        '400':
+          description: Invalid print settings.
+        '404':
+          description: No such song.
+        '429':
+          description: Print rate limit exceeded.
   /api/v1/courses/:
     get:
       operationId: courses_list
@@ -133,6 +309,7 @@ paths:
       tags:
       - courses
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -156,6 +333,7 @@ paths:
       tags:
       - courses
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -185,6 +363,7 @@ paths:
       tags:
       - announcements
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -208,6 +387,7 @@ paths:
       tags:
       - announcements
       security:
+      - jwtAuth: []
       - cookieAuth: []
       - {}
       responses:
@@ -217,6 +397,164 @@ paths:
               schema:
                 $ref: '#/components/schemas/AnnouncementDetail'
           description: ''
+  /api/v1/sync/lessons/:
+    get:
+      operationId: sync_lessons_retrieve
+      description: Return flat sync payload.
+      parameters:
+      - in: query
+        name: since
+        schema:
+          type: string
+        description: ISO-8601 timestamp. When provided, only lessons updated after
+          this point are included in `lessons`, `songs`, `chords`, and `schemes`.
+          `lesson_uuids` always contains the full set of published UUIDs regardless
+          of this parameter.
+      tags:
+      - sync
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncLessonsResponse'
+          description: ''
+  /api/v1/sync/version/:
+    get:
+      operationId: sync_version_retrieve
+      description: Return current content version.
+      tags:
+      - sync
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentVersionResponse'
+          description: ''
+  /api/v1/donations/products/:
+    get:
+      operationId: donations_products_list
+      description: List active donation products clients can offer for purchase.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - donations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDonationProductListList'
+          description: ''
+  /api/v1/donations/verify/:
+    post:
+      operationId: donations_verify_create
+      description: Validate the purchase payload and verify it against the store.
+      tags:
+      - donations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseVerifyRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PurchaseVerifyRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PurchaseVerifyRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyError'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyError'
+          description: ''
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyError'
+          description: ''
+        '502':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyError'
+          description: ''
+  /api/v1/donations/claim/:
+    post:
+      operationId: donations_claim_create
+      description: Claim all unclaimed purchases for the given device_id.
+      tags:
+      - donations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimDeviceRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClaimDeviceRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClaimDeviceRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimDeviceResponse'
+          description: ''
+        '400':
+          description: Missing or overlong `device_id`.
+        '401':
+          description: No valid access token.
 components:
   schemas:
     AnnouncementDetail:
@@ -338,6 +676,59 @@ components:
       - musical_title
       - positions
       - title
+    ChordEmbedded:
+      type: object
+      description: |-
+        Chord representation for nesting inside a song.
+
+        Omits `positions` — clients render chord diagrams from the pre-rendered
+        `svg_horizontal`/`svg_vertical` fields, never from raw string positions
+        (same choice already made by `ChordSyncSerializer` for offline sync).
+        Keeping it out here avoids prefetching `positions` for every chord in
+        every song of a lesson.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 50
+        musical_title:
+          type: string
+          title: Музыкальное название
+          maxLength: 50
+        order_in_note:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: Порядок отображения
+        start_fret:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: С какого лада начинается
+        has_barre:
+          type: boolean
+          title: Есть барре?
+        svg_horizontal:
+          type: string
+          title: SVG горизонтальный
+        svg_vertical:
+          type: string
+          title: SVG вертикальный
+      required:
+      - id
+      - musical_title
+      - title
+    ChordOrientationEnum:
+      enum:
+      - horizontal
+      - vertical
+      type: string
+      description: |-
+        * `horizontal` - Горизонтальный
+        * `vertical` - Вертикальный
     ChordPosition:
       type: object
       description: Serializer for one string position.
@@ -362,6 +753,44 @@ components:
       - finger
       - fret
       - string_number
+    ChordSync:
+      type: object
+      description: Chord for offline sync.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 50
+        musical_title:
+          type: string
+          title: Музыкальное название
+          maxLength: 50
+        order_in_note:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: Порядок отображения
+        start_fret:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: С какого лада начинается
+        has_barre:
+          type: boolean
+          title: Есть барре?
+        svg_horizontal:
+          type: string
+          title: SVG горизонтальный
+        svg_vertical:
+          type: string
+          title: SVG вертикальный
+      required:
+      - id
+      - musical_title
+      - title
     ChordsList:
       type: object
       description: Serializer for chords list.
@@ -393,6 +822,34 @@ components:
       - musical_title
       - positions
       - title
+    ClaimDeviceRequestRequest:
+      type: object
+      description: Validates the device_id whose anonymous purchases should be claimed.
+      properties:
+        device_id:
+          type: string
+          minLength: 1
+          maxLength: 64
+      required:
+      - device_id
+    ClaimDeviceResponse:
+      type: object
+      description: How many anonymous purchases were attached to the user.
+      properties:
+        claimed:
+          type: integer
+          readOnly: true
+      required:
+      - claimed
+    ContentVersionResponse:
+      type: object
+      description: Shape of the /api/v1/sync/version/ response.
+      properties:
+        version:
+          type: string
+          nullable: true
+      required:
+      - version
     CourseDetail:
       type: object
       description: Serializer for course detail.
@@ -428,6 +885,37 @@ components:
       - title
       - updated_at
       - uuid
+    CourseFlat:
+      type: object
+      description: Course fields only — memberships are in the top-level course_lessons
+        array.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+      required:
+      - created_at
+      - title
+      - updated_at
+      - uuid
     CourseLessonDetail:
       type: object
       description: Serializer for lesson within course detail.
@@ -438,6 +926,25 @@ components:
           $ref: '#/components/schemas/LessonsList'
       required:
       - lesson
+      - order
+    CourseLessonFlat:
+      type: object
+      description: Course-lesson membership with both UUIDs explicit.
+      properties:
+        course_uuid:
+          type: string
+          format: uuid
+        lesson_uuid:
+          type: string
+          format: uuid
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок урока в курсе
+      required:
+      - course_uuid
+      - lesson_uuid
       - order
     CoursesList:
       type: object
@@ -461,9 +968,50 @@ components:
       - lessons_count
       - title
       - uuid
+    DonationProductList:
+      type: object
+      description: |-
+        Expose only the product_id field.
+
+        Price and title are resolved by the client directly against the store's
+        own SDK using this id — they are deliberately not duplicated here.
+      properties:
+        product_id:
+          type: string
+          title: Идентификатор товара
+          maxLength: 100
+      required:
+      - product_id
+    GoogleAuthRequestRequest:
+      type: object
+      description: Validates the incoming Google ID token.
+      properties:
+        id_token:
+          type: string
+          minLength: 1
+      required:
+      - id_token
+    GoogleAuthResponse:
+      type: object
+      description: The JWT access/refresh pair and the signed-in user's profile.
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/UserProfile'
+          readOnly: true
+      required:
+      - access
+      - refresh
+      - user
     ImageScheme:
       type: object
-      description: Output  serializer for an image scheme.
+      description: Output serializer for an image scheme.
       properties:
         id:
           type: integer
@@ -549,6 +1097,56 @@ components:
       - title
       - uuid
       - video_url
+    LessonFlat:
+      type: object
+      description: |-
+        Lesson fields only — songs are in the top-level songs array.
+
+        Recommended lessons are referenced by UUID, limited to published ones. A
+        referenced lesson unpublished later does not bump this lesson's
+        `updated_at`, so the client resolves the UUIDs against `lesson_uuids`.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Обновлено
+        title:
+          type: string
+          title: Название
+          maxLength: 200
+        description:
+          type: string
+          title: Описание
+          description: Краткое описание содержания урока
+        video_url:
+          type: string
+          format: uri
+          title: Видео
+          description: Ссылка на видео урока
+          maxLength: 200
+        duration:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Длительность (сек)
+          description: Общая длительность урока в секундах
+        addition_lesson_uuids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+      required:
+      - addition_lesson_uuids
+      - title
+      - updated_at
+      - uuid
+      - video_url
     LessonsList:
       type: object
       description: Serializer for lessons list.
@@ -587,6 +1185,15 @@ components:
       - title
       - uuid
       - video_url
+    LogoutRequestRequest:
+      type: object
+      description: Validates the incoming refresh token to blacklist.
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
     PaginatedAnnouncementsListList:
       type: object
       required:
@@ -656,6 +1263,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CoursesList'
+    PaginatedDonationProductListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DonationProductList'
     PaginatedLessonsListList:
       type: object
       required:
@@ -679,6 +1309,155 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LessonsList'
+    PlatformEnum:
+      enum:
+      - android
+      - ios
+      type: string
+      description: |-
+        * `android` - Android
+        * `ios` - iOS
+    PrintSizeEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      type: integer
+      description: |-
+        * `1` - Очень маленький
+        * `2` - Маленький
+        * `3` - Средний
+        * `4` - Большой
+        * `5` - Очень большой
+    Purchase:
+      type: object
+      description: Serialize a verified purchase back to the client.
+      properties:
+        platform:
+          allOf:
+          - $ref: '#/components/schemas/PlatformEnum'
+          readOnly: true
+          title: Платформа
+        product_id:
+          type: string
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+          title: Статус
+        verified_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Подтверждено
+      required:
+      - platform
+      - product_id
+      - status
+      - verified_at
+    PurchaseVerifyRequestRequest:
+      type: object
+      description: |-
+        Validates a client's request to verify a store purchase.
+
+        `purchase_token` is required for Android (needed again to acknowledge)
+        and unused for iOS. `signed_transaction_info` is required for iOS (the
+        JWS StoreKit hands the client for its own transaction) and unused for
+        Android. `store_transaction_id` is required for iOS but optional for
+        Android: Google leaves `orderId` unset until a pending payment clears,
+        so an Android client reporting a purchase it saw as PENDING has no id to
+        send and would otherwise be refused here instead of being told to retry.
+        `device_id` is only used when the request is unauthenticated.
+      properties:
+        platform:
+          $ref: '#/components/schemas/PlatformEnum'
+        product_id:
+          type: string
+          minLength: 1
+          maxLength: 100
+        store_transaction_id:
+          type: string
+          default: ''
+          maxLength: 255
+        purchase_token:
+          type: string
+          default: ''
+        signed_transaction_info:
+          type: string
+          default: ''
+        device_id:
+          type: string
+          default: ''
+          maxLength: 64
+      required:
+      - platform
+      - product_id
+    RefreshToken:
+      type: object
+      description: |-
+        Refuse refresh tokens whose user no longer exists.
+
+        simplejwt looks the user up without catching DoesNotExist, so a token that
+        outlives its user would surface as a 500. That happens when the user is
+        deleted in the admin, or when a refresh races `delete_account` and its
+        rotated token is stored after the blacklisting.
+      properties:
+        refresh:
+          type: string
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    RefreshTokenRequest:
+      type: object
+      description: |-
+        Refuse refresh tokens whose user no longer exists.
+
+        simplejwt looks the user up without catching DoesNotExist, so a token that
+        outlives its user would surface as a 500. That happens when the user is
+        deleted in the admin, or when a refresh races `delete_account` and its
+        rotated token is stored after the blacklisting.
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    SchemeSync:
+      type: object
+      description: Scheme for offline sync.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          title: Изображение
+        inscription:
+          type: string
+          title: Надпись
+          maxLength: 100
+        height:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Высота
+        width:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: Ширина
+      required:
+      - id
+      - image
     SongDetail:
       type: object
       description: Song detail serializer.
@@ -693,8 +1472,23 @@ components:
           maxLength: 200
         text:
           type: string
-          title: Текст песни
-          description: С аккордами и переносами строк
+          title: Текст песни (устарело)
+          description: 'Deprecated: no longer maintained, use `chord_text`. Markdown
+            with chords on separate bold lines aligned by spaces, so they drift from
+            the lyrics when a line wraps. Kept for released app versions; may be empty
+            for new songs.'
+          deprecated: true
+        chord_text:
+          type: string
+          title: Текст с аккордами
+          description: 'Song text in markdown with every chord written inline in square
+            brackets right before the syllable it belongs to: `Мы не [G (2)]знали
+            друг друга`. A chord after the last word goes at the end of the line after
+            a space. Text inside the brackets after the chord name (from a space or
+            `(`) is a performance note such as a strum count. Chord-only lines (intros,
+            instrumentals) stay bold lines without brackets. Brackets are markdown
+            link syntax (`[Am](…)`), so cut the chords out before rendering markdown.
+            Empty string when the song is not converted yet: fall back to `text`.'
         metronome:
           type: integer
           maximum: 2147483647
@@ -708,11 +1502,58 @@ components:
         chords:
           type: array
           items:
-            $ref: '#/components/schemas/ChordDetail'
+            $ref: '#/components/schemas/ChordEmbedded'
           readOnly: true
       required:
       - chords
       - schemes
+      - title
+      - uuid
+    SongFlat:
+      type: object
+      description: Song with chord_ids/scheme_ids instead of nested objects.
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        lesson_uuid:
+          type: string
+          format: uuid
+        title:
+          type: string
+        text:
+          type: string
+          description: 'Deprecated: no longer maintained, use `chord_text`. Markdown
+            with chords on separate bold lines aligned by spaces, so they drift from
+            the lyrics when a line wraps. Kept for released app versions; may be empty
+            for new songs.'
+          deprecated: true
+        chord_text:
+          type: string
+          description: 'Song text in markdown with every chord written inline in square
+            brackets right before the syllable it belongs to: `Мы не [G (2)]знали
+            друг друга`. A chord after the last word goes at the end of the line after
+            a space. Text inside the brackets after the chord name (from a space or
+            `(`) is a performance note such as a strum count. Chord-only lines (intros,
+            instrumentals) stay bold lines without brackets. Brackets are markdown
+            link syntax (`[Am](…)`), so cut the chords out before rendering markdown.
+            Empty string when the song is not converted yet: fall back to `text`.'
+        metronome:
+          type: integer
+        chord_ids:
+          type: array
+          items:
+            type: integer
+        scheme_ids:
+          type: array
+          items:
+            type: integer
+      required:
+      - chord_ids
+      - chord_text
+      - lesson_uuid
+      - metronome
+      - scheme_ids
       - text
       - title
       - uuid
@@ -731,8 +1572,172 @@ components:
       required:
       - title
       - uuid
+    SongPrintSettingsRequest:
+      type: object
+      description: Deserialize and validate PDF print settings from the request body.
+      properties:
+        show_chords:
+          type: boolean
+          default: true
+        show_schemes:
+          type: boolean
+          default: true
+        show_text:
+          type: boolean
+          default: true
+        chord_orientation:
+          allOf:
+          - $ref: '#/components/schemas/ChordOrientationEnum'
+          default: vertical
+        chord_size:
+          allOf:
+          - $ref: '#/components/schemas/PrintSizeEnum'
+          default: 3
+        scheme_size:
+          allOf:
+          - $ref: '#/components/schemas/PrintSizeEnum'
+          default: 3
+        text_size:
+          allOf:
+          - $ref: '#/components/schemas/PrintSizeEnum'
+          default: 3
+        columns_count:
+          type: integer
+          maximum: 3
+          minimum: 1
+          default: 1
+    StatusEnum:
+      enum:
+      - verified
+      - completed
+      - refunded
+      - revoked
+      type: string
+      description: |-
+        * `verified` - Подтверждено стором
+        * `completed` - Завершено
+        * `refunded` - Возвращено
+        * `revoked` - Отозвано
+    SyncLessonsResponse:
+      type: object
+      description: Shape of the /api/v1/sync/lessons/ response.
+      properties:
+        version:
+          type: string
+          nullable: true
+        lesson_uuids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/LessonFlat'
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongFlat'
+        chords:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChordSync'
+        schemes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchemeSync'
+        course_uuids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseFlat'
+        course_lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseLessonFlat'
+      required:
+      - chords
+      - course_lessons
+      - course_uuids
+      - courses
+      - lesson_uuids
+      - lessons
+      - schemes
+      - songs
+      - version
+    TokenVerifyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - token
+    UserProfile:
+      type: object
+      description: Public profile fields shared by the auth and profile endpoints.
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        display_name:
+          type: string
+          description: The user's full name, falling back to their email prefix.
+          readOnly: true
+        avatar:
+          title: Аватар
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+      required:
+      - display_name
+      - email
+    VerifyError:
+      type: object
+      description: |-
+        Describes the error body PurchaseVerifyView returns.
+
+        Documentation-only: it exists so drf-spectacular publishes `code` and its
+        permitted values, without which a generated client has to hard-code the
+        strings it is meant to branch on. Never used to build or parse a payload.
+      properties:
+        detail:
+          type: string
+          readOnly: true
+        code:
+          allOf:
+          - $ref: '#/components/schemas/VerifyErrorCode'
+          readOnly: true
+      required:
+      - code
+      - detail
+    VerifyErrorCode:
+      enum:
+      - unknown_product
+      - purchase_pending
+      - purchase_rejected
+      - store_unavailable
+      type: string
+      description: |-
+        * `unknown_product` - UNKNOWN_PRODUCT
+        * `purchase_pending` - PURCHASE_PENDING
+        * `purchase_rejected` - PURCHASE_REJECTED
+        * `store_unavailable` - STORE_UNAVAILABLE
   securitySchemes:
     cookieAuth:
       type: apiKey
       in: cookie
       name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

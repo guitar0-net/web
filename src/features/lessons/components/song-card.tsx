@@ -93,7 +93,7 @@ export function SongCard({ song }: SongCardProps) {
       )}
 
       <TextSection
-        text={song.text}
+        text={song.text ?? ""}
         size={textSize}
         onSizeDecrease={() => decreaseSize("textSize")}
         onSizeIncrease={() => increaseSize("textSize")}
