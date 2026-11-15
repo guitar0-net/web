@@ -9,6 +9,7 @@ import type { components } from "@/types/api";
 
 export type ChordDetail = components["schemas"]["ChordDetail"];
 export type ChordsListItem = components["schemas"]["ChordsList"];
+export type ChordEmbedded = components["schemas"]["ChordEmbedded"];
 
 export const chordsApi = {
   fetchChords: async (): Promise<ChordsListItem[]> => {

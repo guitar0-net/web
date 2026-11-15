@@ -68,7 +68,6 @@ it("renders chords section when chords are present", () => {
         id: 1,
         title: "Am",
         musical_title: "A minor",
-        positions: [],
       },
     ],
   });
@@ -88,7 +87,7 @@ it("always renders the tab text section", () => {
   expect(screen.getByTestId("tab-text")).toBeInTheDocument();
 });
 
-const CHORD = { id: 1, title: "Dm", musical_title: "D minor", positions: [] };
+const CHORD = { id: 1, title: "Dm", musical_title: "D minor" };
 const SCHEME = { id: 1, image: "https://example.com/s.png" };
 
 function chordsSection() {

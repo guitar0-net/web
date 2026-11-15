@@ -10,12 +10,12 @@ import { ToggleVisibility } from "@/components/controls/toggle-visibility";
 import { SectionHeader } from "@/components/section-header";
 import { Size } from "@/types/ui";
 
-import type { ChordsListItem } from "../api";
+import type { ChordEmbedded } from "../api";
 import { ChordItem, type ChordOrientation } from "./chord-item";
 import { ToggleOrientation } from "./toggle-orientation";
 
 interface ChordsSectionProps {
-  chords: ChordsListItem[];
+  chords: ChordEmbedded[];
   size: Size;
   orientation: ChordOrientation;
   visible: boolean;
