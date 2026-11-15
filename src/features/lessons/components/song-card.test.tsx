@@ -16,7 +16,7 @@ function makeSong(overrides: Partial<SongDetail> = {}): SongDetail {
   return {
     uuid: crypto.randomUUID(),
     title: `Песня-${Math.random().toString(36).slice(2)}`,
-    text: "Em Am\nТекст песни",
+    chord_text: "Текст [Em]песни",
     schemes: [],
     chords: [],
     ...overrides,
@@ -82,7 +82,7 @@ it("does not render chords section when chords is empty", () => {
 });
 
 it("always renders the tab text section", () => {
-  const song = makeSong({ text: "Текст-уникальный" });
+  const song = makeSong({ chord_text: "Текст-уникальный" });
   render(<SongCard song={song} />);
   expect(screen.getByTestId("tab-text")).toBeInTheDocument();
 });
@@ -190,4 +190,20 @@ it("clicking text size increase invokes increaseSize for textSize", async () => 
   render(<SongCard song={makeSong({ chords: [], schemes: [] })} />);
   await userEvent.click(screen.getByRole("button", { name: /increase/i }));
   expect(useSongPreferencesStore.getState().textSize).toBe(4);
+});
+
+function randomWord(): string {
+  return `слово${Math.random().toString(36).slice(2, 8)}`;
+}
+
+it("renders lyrics from chord_text", () => {
+  const word = randomWord();
+  render(<SongCard song={makeSong({ chord_text: `[Am]${word} ёлка` })} />);
+  expect(screen.getByTestId("tab-text")).toHaveTextContent(word);
+});
+
+it("does not render the deprecated text field", () => {
+  const legacy = randomWord();
+  render(<SongCard song={makeSong({ text: legacy, chord_text: randomWord() })} />);
+  expect(screen.getByTestId("tab-text")).not.toHaveTextContent(legacy);
 });

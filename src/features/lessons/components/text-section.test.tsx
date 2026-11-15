@@ -4,7 +4,7 @@
 
 // @vitest-environment jsdom
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { TextSection } from "./text-section";
@@ -13,7 +13,7 @@ it("renders the text content", () => {
   const text = `Em  Am\nСлова текста-${Math.random().toString(36).slice(2)}`;
   render(
     <TextSection
-      text={text}
+      chordText={text}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -25,7 +25,7 @@ it("renders the text content", () => {
 it("applies text-xs class when size is 1", () => {
   render(
     <TextSection
-      text="some text"
+      chordText="some text"
       size={1}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -37,7 +37,7 @@ it("applies text-xs class when size is 1", () => {
 it("applies text-2xl class when size is 5", () => {
   render(
     <TextSection
-      text="some text"
+      chordText="some text"
       size={5}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -50,7 +50,7 @@ it("calls onSizeDecrease when decrease button is clicked", async () => {
   const onSizeDecrease = vi.fn();
   render(
     <TextSection
-      text="text"
+      chordText="text"
       size={3}
       onSizeDecrease={onSizeDecrease}
       onSizeIncrease={() => {}}
@@ -63,7 +63,7 @@ it("calls onSizeDecrease when decrease button is clicked", async () => {
 it("renders h4 with text-destructive class", () => {
   render(
     <TextSection
-      text={"#### Акцент-раздел"}
+      chordText={"#### Акцент-раздел"}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -75,7 +75,7 @@ it("renders h4 with text-destructive class", () => {
 it("renders h5 with text-destructive class", () => {
   render(
     <TextSection
-      text={"##### Акцент-подраздел"}
+      chordText={"##### Акцент-подраздел"}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -87,7 +87,7 @@ it("renders h5 with text-destructive class", () => {
 it("renders h6 with bg-muted class", () => {
   render(
     <TextSection
-      text={"###### Аккорд-метка"}
+      chordText={"###### Аккорд-метка"}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -99,7 +99,7 @@ it("renders h6 with bg-muted class", () => {
 it("renders inline code with font-mono class", () => {
   const { container } = render(
     <TextSection
-      text={"Играй `Em7` здесь"}
+      chordText={"Играй `Em7` здесь"}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -111,7 +111,7 @@ it("renders inline code with font-mono class", () => {
 it("renders fenced code block pre with overflow-x-auto class", () => {
   const { container } = render(
     <TextSection
-      text={"```\nEm  Am\nC   G\n```"}
+      chordText={"```\nEm  Am\nC   G\n```"}
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={() => {}}
@@ -124,7 +124,7 @@ it("calls onSizeIncrease when increase button is clicked", async () => {
   const onSizeIncrease = vi.fn();
   render(
     <TextSection
-      text="text"
+      chordText="text"
       size={3}
       onSizeDecrease={() => {}}
       onSizeIncrease={onSizeIncrease}
@@ -132,4 +132,54 @@ it("calls onSizeIncrease when increase button is clicked", async () => {
   );
   await userEvent.click(screen.getByRole("button", { name: /increase/i }));
   expect(onSizeIncrease).toHaveBeenCalledOnce();
+});
+
+function randomChord(): string {
+  const chords = ["Am", "F#m", "Hm7", "Dsus2", "C#dim"];
+  return chords[Math.floor(Math.random() * chords.length)];
+}
+
+function renderChordText(chordText: string): HTMLElement {
+  render(
+    <TextSection
+      chordText={chordText}
+      size={3}
+      onSizeDecrease={() => {}}
+      onSizeIncrease={() => {}}
+    />,
+  );
+  return screen.getByTestId("tab-text");
+}
+
+it("renders an inline chord as its own element without brackets", () => {
+  const chord = randomChord();
+  const tab = renderChordText(`Мы не [${chord}]знали`);
+  expect(within(tab).getByText(chord)).toBeInTheDocument();
+});
+
+it("renders a performance note glued to the chord apart from the chord name", () => {
+  const chord = randomChord();
+  const note = `(${Math.floor(Math.random() * 8) + 1})`;
+  const tab = renderChordText(`Белый [${chord}${note}]снег`);
+  expect(within(tab).getByText(chord)).toBeInTheDocument();
+});
+
+it("renders a space-separated performance note as its own element", () => {
+  const note = `(${Math.floor(Math.random() * 8) + 1})`;
+  const tab = renderChordText(`По имени [${randomChord()} ${note}]Солнце`);
+  expect(within(tab).getByText(note)).toBeInTheDocument();
+});
+
+it("keeps a chord and its syllable inside one unbreakable word", () => {
+  const chord = randomChord();
+  const tab = renderChordText(`Мы не ё[${chord}]лка`);
+  expect(within(tab).getAllByTestId("chord-word").at(-1)).toHaveTextContent(
+    `ё${chord}лка`,
+  );
+});
+
+it("renders a trailing chord after the last word as a separate word", () => {
+  const chord = randomChord();
+  const tab = renderChordText(`Друг [Am]друга [${chord}]`);
+  expect(within(tab).getAllByTestId("chord-word").at(-1)).toHaveTextContent(chord);
 });
